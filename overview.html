@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview of the components of data quality</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; }
+    #network { width: 100%; height: 88vh; border: 1px solid #ddd; }
+    .toolbar { padding: 8px; background: #f7f7f7; border-bottom: 1px solid #eee; display:flex; gap:8px; align-items:center; }
+    input[type=text] { padding:6px; font-size:14px; }
+    button { padding:6px 10px; font-size:14px; cursor:pointer }
+    .legend { padding:8px; font-size:13px; color:#333; }
+  </style>
+  <!-- vis-network standalone -->
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+  <div class="toolbar">
+    <div><strong>Overview of the components of data quality</strong></div>
+    <div style="flex:1"></div>
+    <input id="search" type="text" placeholder="Search node by name" />
+    <button id="btnSearch">Find</button>
+    <button id="btnReset">Reset view</button>
+  </div>
+
+  <div id="network"></div>
+  <div class="legend">
+    <strong>Legend:</strong>
+    &nbsp; <span style="color:#0077cc">●</span> Association
+    &nbsp; <span style="color:#2a9d8f">●</span> Aggregation
+    &nbsp; <span style="color:#e76f51">●</span> Inheritance
+  </div>
+
+  <script>
+    // Nodes and edges injected by Python
+    const nodesData = [{"id": "AbsolutePositionalAccuracy", "label": "AbsolutePositionalAccuracy", "title": "<b>AbsolutePositionalAccuracy</b>", "shape": "box"}, {"id": "AccuracyOfATimeMeasurement", "label": "AccuracyOfATimeMeasurement", "title": "<b>AccuracyOfATimeMeasurement</b>", "shape": "box"}, {"id": "AggregationDerivation", "label": "AggregationDerivation", "title": "<b>AggregationDerivation</b>", "shape": "box"}, {"id": "Commission", "label": "Commission", "title": "<b>Commission</b>", "shape": "box"}, {"id": "Completeness", "label": "Completeness", "title": "<b>Completeness</b><br>Children:<br>- Commission<br>- Omission", "shape": "box"}, {"id": "ConceptualConsistency", "label": "ConceptualConsistency", "title": "<b>ConceptualConsistency</b>", "shape": "box"}, {"id": "Confidence", "label": "Confidence", "title": "<b>Confidence</b>", "shape": "box"}, {"id": "ConformanceResult", "label": "ConformanceResult", "title": "<b>ConformanceResult</b>", "shape": "box"}, {"id": "CoverageResult", "label": "CoverageResult", "title": "<b>CoverageResult</b>", "shape": "box"}, {"id": "DataEvaluation", "label": "DataEvaluation", "title": "<b>DataEvaluation</b><br>Children:<br>- IndirectEvaluation<br>- FullInspection<br>- SampleBasedInspection", "shape": "box"}, {"id": "DataQuality", "label": "DataQuality", "title": "<b>DataQuality</b>", "shape": "box"}, {"id": "DescriptiveResult", "label": "DescriptiveResult", "title": "<b>DescriptiveResult</b>", "shape": "box"}, {"id": "DomainConsistency", "label": "DomainConsistency", "title": "<b>DomainConsistency</b>", "shape": "box"}, {"id": "EvaluationMethod", "label": "EvaluationMethod", "title": "<b>EvaluationMethod</b>", "shape": "box"}, {"id": "FormatConsistency", "label": "FormatConsistency", "title": "<b>FormatConsistency</b>", "shape": "box"}, {"id": "FullInspection", "label": "FullInspection", "title": "<b>FullInspection</b>", "shape": "box"}, {"id": "GriddedDataPositionalAccuracy", "label": "GriddedDataPositionalAccuracy", "title": "<b>GriddedDataPositionalAccuracy</b>", "shape": "box"}, {"id": "Homogeneity", "label": "Homogeneity", "title": "<b>Homogeneity</b>", "shape": "box"}, {"id": "IndirectEvaluation", "label": "IndirectEvaluation", "title": "<b>IndirectEvaluation</b>", "shape": "box"}, {"id": "LogicalConsistency", "label": "LogicalConsistency", "title": "<b>LogicalConsistency</b><br>Children:<br>- ConceptualConsistency<br>- DomainConsistency<br>- FormatConsistency<br>- TopologicalConsistency", "shape": "box"}, {"id": "MeasureReference", "label": "MeasureReference", "title": "<b>MeasureReference</b>", "shape": "box"}, {"id": "Metaquality", "label": "Metaquality", "title": "<b>Metaquality</b><br>Children:<br>- Confidence<br>- Representativity<br>- Homogeneity", "shape": "box"}, {"id": "NonQuantitativeAttributeCorrectness", "label": "NonQuantitativeAttributeCorrectness", "title": "<b>NonQuantitativeAttributeCorrectness</b>", "shape": "box"}, {"id": "Omission", "label": "Omission", "title": "<b>Omission</b>", "shape": "box"}, {"id": "PositionalAccuracy", "label": "PositionalAccuracy", "title": "<b>PositionalAccuracy</b><br>Children:<br>- AbsolutePositionalAccuracy<br>- RelativePositionalAccuracy<br>- GriddedDataPositionalAccuracy", "shape": "box"}, {"id": "QualityElement", "label": "QualityElement", "title": "<b>QualityElement</b><br>Children:<br>- MeasureReference<br>- EvaluationMethod<br>- QualityResult<br>- Metaquality<br>- Completeness<br>- LogicalConsistency<br>- PositionalAccuracy<br>- ThematicQuality<br>- TemporalQuality<br>- QualityEvaluationReportInformation<br>- DataQuality", "shape": "box"}, {"id": "QualityEvaluationReportInformation", "label": "QualityEvaluationReportInformation", "title": "<b>QualityEvaluationReportInformation</b>", "shape": "box"}, {"id": "QualityResult", "label": "QualityResult", "title": "<b>QualityResult</b><br>Children:<br>- CoverageResult<br>- ConformanceResult<br>- QuantitativeResult<br>- DescriptiveResult", "shape": "box"}, {"id": "QuantitativeAttributeAccuracy", "label": "QuantitativeAttributeAccuracy", "title": "<b>QuantitativeAttributeAccuracy</b>", "shape": "box"}, {"id": "QuantitativeResult", "label": "QuantitativeResult", "title": "<b>QuantitativeResult</b>", "shape": "box"}, {"id": "RelativePositionalAccuracy", "label": "RelativePositionalAccuracy", "title": "<b>RelativePositionalAccuracy</b>", "shape": "box"}, {"id": "Representativity", "label": "Representativity", "title": "<b>Representativity</b>", "shape": "box"}, {"id": "SampleBasedInspection", "label": "SampleBasedInspection", "title": "<b>SampleBasedInspection</b>", "shape": "box"}, {"id": "TemporalConsistency", "label": "TemporalConsistency", "title": "<b>TemporalConsistency</b>", "shape": "box"}, {"id": "TemporalQuality", "label": "TemporalQuality", "title": "<b>TemporalQuality</b><br>Children:<br>- AccuracyOfATimeMeasurement<br>- TemporalValidity<br>- TemporalConsistency", "shape": "box"}, {"id": "TemporalValidity", "label": "TemporalValidity", "title": "<b>TemporalValidity</b>", "shape": "box"}, {"id": "ThematicClassificationCorrectness", "label": "ThematicClassificationCorrectness", "title": "<b>ThematicClassificationCorrectness</b>", "shape": "box"}, {"id": "ThematicQuality", "label": "ThematicQuality", "title": "<b>ThematicQuality</b><br>Children:<br>- ThematicClassificationCorrectness<br>- NonQuantitativeAttributeCorrectness<br>- QuantitativeAttributeAccuracy", "shape": "box"}, {"id": "TopologicalConsistency", "label": "TopologicalConsistency", "title": "<b>TopologicalConsistency</b>", "shape": "box"}];
+    const edgesData = [{"from": "IndirectEvaluation", "to": "DataEvaluation", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "FullInspection", "to": "DataEvaluation", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "SampleBasedInspection", "to": "DataEvaluation", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "DataEvaluation", "to": "EvaluationMethod", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "AggregationDerivation", "to": "QualityResult", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "EvaluationMethod", "to": "QualityElement", "label": "+evaluationMethod (1..*)", "arrows": "to", "color": "#2a9d8f", "dashes": false, "font": {"align": "middle"}}, {"from": "MeasureReference", "to": "QualityElement", "label": "+measure (0..*)", "arrows": "to", "color": "#2a9d8f", "dashes": false, "font": {"align": "middle"}}, {"from": "QualityResult", "to": "QualityElement", "label": "+result (1..*)", "arrows": "to", "color": "#2a9d8f", "dashes": false, "font": {"align": "middle"}}, {"from": "QualityElement", "to": "QualityEvaluationReportInformation", "label": "+elementReport (0..*)", "arrows": "to", "color": "#2a9d8f", "dashes": false, "font": {"align": "middle"}}, {"from": "QualityEvaluationReportInformation", "to": "DataQuality", "label": "", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"size": 0}}, {"from": "Metaquality", "to": "QualityElement", "label": "+relatedQualityElement", "arrows": "to", "color": "#0077cc", "dashes": false, "font": {"align": "middle"}}, {"from": "Confidence", "to": "Metaquality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "Representativity", "to": "Metaquality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "Homogeneity", "to": "Metaquality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "Completeness", "to": "QualityElement", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "Commission", "to": "Completeness", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "Omission", "to": "Completeness", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "LogicalConsistency", "to": "QualityElement", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "ConceptualConsistency", "to": "LogicalConsistency", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "DomainConsistency", "to": "LogicalConsistency", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "FormatConsistency", "to": "LogicalConsistency", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "TopologicalConsistency", "to": "LogicalConsistency", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "PositionalAccuracy", "to": "QualityElement", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "AbsolutePositionalAccuracy", "to": "PositionalAccuracy", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "RelativePositionalAccuracy", "to": "PositionalAccuracy", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "GriddedDataPositionalAccuracy", "to": "PositionalAccuracy", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "ThematicQuality", "to": "QualityElement", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "ThematicClassificationCorrectness", "to": "ThematicQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "NonQuantitativeAttributeCorrectness", "to": "ThematicQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "QuantitativeAttributeAccuracy", "to": "ThematicQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "TemporalQuality", "to": "QualityElement", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "AccuracyOfATimeMeasurement", "to": "TemporalQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "TemporalValidity", "to": "TemporalQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "TemporalConsistency", "to": "TemporalQuality", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "CoverageResult", "to": "QualityResult", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "ConformanceResult", "to": "QualityResult", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "QuantitativeResult", "to": "QualityResult", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}, {"from": "DescriptiveResult", "to": "QualityResult", "label": "", "arrows": "to", "color": "#e76f51", "dashes": false, "font": {"size": 0}}];
+
+    const nodes = new vis.DataSet(nodesData);
+    const edges = new vis.DataSet(edgesData);
+
+    const container = document.getElementById('network');
+    const data = { nodes: nodes, edges: edges };
+
+    const options = {
+      interaction: { hover: true, multiselect: true },
+      nodes: { shape: 'box', margin: 10, font: {size: 14} },
+      edges: { font: {align: 'middle'}, smooth: true, arrows: {to: {enabled: true, scaleFactor:1}} },
+      physics: {
+        enabled: true,
+        stabilization: { iterations: 200 }
+      },
+      layout: { improvedLayout: true }
+    };
+
+    const network = new vis.Network(container, data, options);
+
+    // Search button: focus + open tooltip
+    document.getElementById('btnSearch').addEventListener('click', () => {
+      const q = document.getElementById('search').value.trim();
+      if (!q) return;
+      const matched = nodes.get(q) || nodes.get({filter: n => n.label && n.label.toLowerCase() === q.toLowerCase()});
+      if (matched) {
+        network.focus(q, { scale: 1.2, animation: {duration: 400} });
+        network.selectNodes([q]);
+      } else {
+        // try substring match
+        const all = nodes.get();
+        const found = all.find(n => n.label && n.label.toLowerCase().includes(q.toLowerCase()));
+        if (found) {
+          network.focus(found.id, { scale: 1.2, animation: {duration: 400} });
+          network.selectNodes([found.id]);
+        } else {
+          alert('No node found: ' + q);
+        }
+      }
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      network.fit();
+      network.unselectAll();
+    });
+
+    // Fit once after stabilization
+    network.once('stabilizationIterationsDone', function() {
+      network.fit();
+    });
+  </script>
+</body>
+</html>
