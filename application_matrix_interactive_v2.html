@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JSON Showcase — Advanced Collapsibles</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .collapse-content { overflow: hidden; }
+    .toggle-icon { transition: transform 300ms ease; display: inline-block; }
+
+    /* Sticky headers for collapsibles */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 10;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Dark mode overrides */
+    body.dark {
+      background-color: #1f2937;
+      color: #f3f4f6;
+    }
+    body.dark .sticky-header { background-color: #374151; border-bottom-color: #4b5563; }
+    body.dark .bg-white { background-color: #374151; }
+    body.dark .text-gray-700 { color: #f3f4f6; }
+    body.dark .text-gray-600 { color: #d1d5db; }
+    body.dark .bg-yellow-200 { background-color: #f59e0b; color: #1f2937; }
+    body.dark input { background-color: #374151; border-color: #4b5563; color: #f3f4f6; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- Dark Mode Toggle -->
+  <div class="max-w-4xl mx-auto mb-4 flex justify-end">
+    <button id="darkModeToggle" class="px-4 py-2 rounded-lg bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200">
+      🌙 Dark Mode
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="max-w-4xl mx-auto mb-6">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search keys & values..."
+      class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-4xl mx-auto space-y-6" id="content"></div>
+
+  <script>
+    const jsonData = [
+  {
+    "document": {
+      "title": "Validation of uncertainty predictions in digital soil mapping",
+      "authors": [
+        "Jonas Schmidinger",
+        "Gerard B.M. Heuvelink"
+      ],
+      "doi": "10.1016/j.geoderma.2023.116585",
+      "publication_year": 2023,
+      "summary": "The paper reviews and demonstrates more comprehensive validation procedures for probabilistic predictions in digital soil mapping (DSM). It highlights limitations of the commonly used prediction interval coverage probability (PICP) — notably its inability to detect one-sided bias — and introduces alternative and complementary validation tools from the probabilistic forecasting literature: quantile coverage probability (QCP), probability integral transform (PIT) histograms, and proper scoring rules (interval score (IS), continuous ranked probability score (CRPS) and its reliability decomposition (RELI)). The methods are illustrated in a case study using pH and log(SOC) from the LUCAS-soil 2015 dataset (Germany and Benelux) comparing five probabilistic models (null model, quantile regression forest (QRF), quantile-regression post-processed RF (QRPP RF), kriging with external drift (KED), and quantile regression neural network (QRNN)). The paper provides recommendations to complement or replace PICP with QCP/PIT and to use scoring rules for model comparison.",
+      "keywords": [
+        "Validation",
+        "Digital soil mapping",
+        "Uncertainty",
+        "Machine learning",
+        "Proper scoring rules",
+        "Quantile regression"
+      ],
+      "source": "Geoderma"
+    },
+    "application_area": [
+      "Digital soil mapping",
+      "Uncertainty quantification and validation",
+      "Spatial environmental modelling"
+    ],
+    "intended_use": "Define and demonstrate a robust validation framework for probabilistic (uncertainty) predictions in DSM; provide practitioners and researchers with diagnostics and scoring tools to assess reliability and sharpness of predictive distributions and to compare competing probabilistic models.",
+    "spatial_scale": "Regional (Germany and Benelux study area); methods applicable at point or map-grid resolution where covariates and sample data exist",
+    "temporal_scale": "Cross-sectional (based on LUCAS-soil 2015 samples); validation experiments run across multiple random train/test splits (repeated resampling)",
+    "validation": {
+      "method": "Repeated random data-splitting (outer loop S=25) into training (75%) and test (25%) sets; hyperparameter tuning via inner K-fold cross-validation (K=5) on training data (grid search). Probabilistic outputs validated using reliability diagnostics (PICP, QCP, PIT histograms), sharpness (prediction interval width PIW), and proper scoring rules for model comparison (IS, CRPS, RELI).",
+      "metrics": {
+        "global_": {
+          "metrics": [
+            "Prediction Interval Coverage Probability (PICP)",
+            "Quantile Coverage Probability (QCP)",
+            "Probability Integral Transform (PIT) histogram",
+            "Prediction Interval Width (PIW)",
+            "Interval Score (IS)",
+            "Continuous Ranked Probability Score (CRPS)",
+            "Median CRPS",
+            "RELI (reliability component of CRPS decomposition)",
+            "Root Mean Square Error (RMSE)",
+            "Mean Error (ME)",
+            "Nash–Sutcliffe Model Efficiency Coefficient (MEC)"
+          ],
+          "description": "Reliability diagnostics: PICP (coverage of central PIs), QCP (coverage of single quantiles) and PIT (uniformity of percentiles). Sharpness: PIW. Comparative scoring: IS (PI-based proper score), CRPS (full-CDF proper score) and its decomposition yielding RELI as a numerical reliability summary. Point-prediction metrics (RMSE, ME, MEC) used to contextualize sharpness and point-performance.",
+          "example_reference": "Gneiting and Raftery (2007); Lauret et al. (2019); Pinson and Tastu (2014)"
+        },
+        "local": null
+      },
+      "uncertainty_handling": {
+        "global_": [
+          "Predictive distributions estimated either parametrically (KED: Gaussian predictive CDF using kriging variances) or non-parametrically from predicted quantiles (QRF, QRNN, QRPP RF, NM empirical CDF).",
+          "Quantile set: 199 quantiles (0.5% to 99.5%) used to approximate continuous CDFs when required."
+        ],
+        "local": [
+          "Location-specific predictive CDFs produced at each test location; PIT and QCP diagnostics computed per-location and aggregated over test set to assess spatially-distributed reliability."
+        ]
+      }
+    },
+    "reproducibility": "Code implemented in R (R Core Team, 2023) using packages: quantregForest, randomForest, quantreg, automap, gstat, qrnn, verification (crpsDecomposition). Inner-loop grid search (hyperparameter tuning) used K=5 CV; outer loop repeated random splits S=25. Data: LUCAS-soil 2015 used for pH and SOC (log-transformed SOC) with pre-processed covariates from Poggio et al. (2021). Data sharing: authors state they do not have permission to share the data; data must be requested from original providers. Supplementary information and implementation details available at the article DOI.",
+    "strengths": [
+      "Introduces and compares multiple probabilistic validation tools (QCP, PIT, IS, CRPS, RELI) that address limitations of PICP (notably one-sided bias).",
+      "Applies framework in a realistic DSM case study with multiple models (machine learning and geostatistics) and two soil properties, demonstrating practical differences and trade-offs.",
+      "Uses repeated resampling (outer loop) and inner CV for tuning, providing robust aggregated performance summaries.",
+      "Provides clear recommendations for practitioners (use QCP/PIT alongside or instead of PICP; use scoring rules for model comparison)."
+    ],
+    "limitations": [
+      "Study limited to two soil properties (pH and log(SOC)) and one regional dataset (LUCAS-soil 2015 for Germany and Benelux); generalization to other regions/properties needs testing.",
+      "Hyperparameter tuning optimized point-prediction performance (not directly probabilistic objectives), which may affect probabilistic performance (noted particularly for QRNN).",
+      "CRPS and IS are sensitive to outliers; interval-score depends on chosen PI level; single-number summaries can hide distributional pathologies without accompanying diagnostics.",
+      "Data access restricted (authors cannot share data), limiting direct replication without requesting data from providers."
+    ],
+    "recommended_context": "Validation of probabilistic predictions and uncertainty maps in digital soil mapping and similar geospatial predictive contexts. Use QCP and PIT histograms to detect one-sided bias and assess calibration; use RELI to summarize reliability; use CRPS and IS (and median CRPS) for relative ranking of competing probabilistic models, being mindful of sensitivity to outliers.",
+    "not_suitable_for": "Sole reliance on PICP for reliability assessment (can hide one-sided bias); contexts where only point-prediction tuning was performed without attention to probabilistic calibration; applications where data cannot provide independent test samples or where sampling design invalidates the validation strategy.",
+    "reasoning": {
+      "core_problem": "Probabilistic predictions in DSM are increasingly produced but their validation is often limited (commonly PICP), which can hide calibration issues such as one-sided bias and provide insufficient information for users and model selection.",
+      "input_data": "LUCAS-soil 2015 observations (pH in CaCl2 and SOC transformed to log(SOC)), pre-processed spatial covariates (89 after correlation/variance filtering) from Poggio et al. (2021).",
+      "tools_models": "Five probabilistic approaches compared: Null model (empirical CDF), Quantile Regression Forest (QRF), Quantile Regression Post-Processing of RF (QRPP RF), Kriging with External Drift (KED, Gaussian predictive CDF), and Quantile Regression Neural Network (QRNN). R packages used: quantregForest, randomForest, quantreg, gstat, automap, qrnn, verification.",
+      "processing": "Data split repeated S=25 times into train (75%) / test (25%); inner K-fold (K=5) CV grid search for hyperparameters (optimizing point predictions). Predictive CDFs obtained parametrically (KED) or via 199 quantiles (0.5%–99.5%) approximated to CDFs. Validation computed per test set and aggregated: PICP, QCP, PIT histograms, PIW, IS(τ) across τ values, CRPS (and median) and RELI; results compared across models and soil properties.",
+      "output_benefit": "A practical validation framework and diagnostics that reveal calibration issues (e.g., one-sided bias) missed by PICP, help compare competing probabilistic models, and guide practitioners to deliver better uncertainty information with DSM maps.",
+      "beneficiaries": "Soil scientists, pedometricians, geostatisticians, environmental modellers, and end users of soil maps who rely on uncertainty information for decision-making or further modelling.",
+      "reproducibility": "Methods are reproducible given access to data and R packages; authors provided implementation details and packages used; however, raw LUCAS subset used must be requested from data providers and hyperparameter grids/seed settings should be recorded to reproduce exact runs."
+    },
+    "fitness_for_use_metrics": {
+      "global_": [
+        "Use QCP and PIT histograms to detect calibration issues including one-sided bias (preferred over or complementary to PICP).",
+        "Use PIW to quantify sharpness (narrower PIs = higher sharpness) and interpret alongside reliability diagnostics.",
+        "Use RELI to summarize reliability across quantiles into a single numeric value.",
+        "Use CRPS and IS (and median CRPS) as proper scoring rules for relative comparison/ranking of competing probabilistic models; note sensitivity to outliers and dependence of IS on PI level.",
+        "Report point-prediction metrics (RMSE, ME, MEC) alongside probabilistic metrics to contextualize sharpness and model quality."
+      ],
+      "local": null,
+      "optimization_diagnostics": [
+        "Hyperparameter tuning performed with inner 5-fold CV on training sets (grid search); tuning optimized point predictions — consider optimizing probabilistic objectives (e.g., CRPS) if probabilistic performance is a priority."
+      ],
+      "recommendation": "Adopt a combined validation protocol: compute PIW, PICP, QCP and PIT for reliability/sharpness diagnosis and use CRPS/IS (with RELI) for model comparison. Prefer QCP/PIT when wanting to detect one-sided bias. Where scoring rules are used, report median CRPS to mitigate outlier sensitivity."
+    },
+    "geographical_coverage": [
+      "Germany",
+      "Benelux"
+    ],
+    "temporal_coverage_start": "2015-01-01",
+    "temporal_coverage_end": "2015-12-31",
+    "key_references": [
+      "Gneiting, T., Raftery, A.E., 2007. Strictly proper scoring rules, prediction, and estimation.",
+      "Lauret, P., David, M., Pinson, P., 2019. Verification of solar irradiance probabilistic forecasts.",
+      "Pinson, P., Tastu, J., 2014. Discussion on limitations of PICP regarding one-sided bias.",
+      "Kasraei, B., et al., 2021. Quantile regression as a generic approach for estimating uncertainty of digital soil maps.",
+      "Heuvelink, G.B.M., 2018. Uncertainty and Uncertainty Propagation in Soil Mapping and Modelling.",
+      "Meinshausen, N., 2006. Quantile regression forests.",
+      "Hersbach, H., 2000. Decomposition of the continuous ranked probability score for ensemble prediction systems."
+    ]
+  }
+];
+
+    const styleMap = {
+      global_metrics: {color: "blue", icon: "📊"},
+      local_metrics: {color: "green", icon: "🗺️"},
+      uncertainty_global: {color: "orange", icon: "⚠️"},
+      uncertainty_local: {color: "orange", icon: "⚠️"},
+      strengths: {color: "teal", icon: "✅"},
+      limitations: {color: "red", icon: "❌"},
+      recommended_context: {color: "purple", icon: "📌"},
+      not_suitable_for: {color: "gray", icon: "🚫"},
+      application_area: {color: "indigo", icon: "🌐"},
+      fitness_for_use_metrics: {color: "cyan", icon: "📈"},
+      document: {color: "pink", icon: "📄"},
+      validation: {color: "yellow", icon: "🔍"},
+      reasoning: {color: "lime", icon: "🧠"}
+    };
+
+    function renderCollapsible(title, content, color, icon) {
+      const id = Math.random().toString(36).substr(2, 9);
+      return `
+        <div class="bg-white rounded-2xl shadow-md">
+          <button onclick="toggleSection('${id}')" aria-expanded="false" aria-controls="${id}" class="sticky-header w-full flex justify-between items-center p-4 text-${color}-600 font-semibold">
+            <span class="flex items-center gap-2"><span class="text-xl">${icon}</span><span class="font-semibold">${title}</span></span>
+            <span id="chev-${id}" class="toggle-icon inline-block" style="transform: rotate(0deg);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div id="${id}" class="collapse-content px-6 pb-4" style="max-height:0;display:none;overflow:hidden;">
+            ${content}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderList(key, values) {
+      const {color, icon} = styleMap[key] || {color: "gray", icon: "•"};
+      const isDark = document.body.classList.contains('dark');
+      const bgClass = isDark ? `bg-${color}-700` : `bg-${color}-50`;
+      const borderClass = isDark ? `border-${color}-600` : `border-${color}-400`;
+      const textClass = isDark ? 'text-gray-200' : 'text-gray-700';
+      const listItems = values.map(v => `
+        <div class="p-3 ${bgClass} border-l-4 ${borderClass} rounded-lg text-sm ${textClass}">
+          ${typeof v === "string" ? v : JSON.stringify(v)}
+        </div>
+      `).join("");
+      return renderCollapsible(key.replaceAll("_"," "), listItems, color, icon);
+    }
+
+    function renderObject(obj) {
+      const isDark = document.body.classList.contains('dark');
+      return Object.entries(obj).map(([key, value]) => {
+        if (Array.isArray(value)) return renderList(key, value);
+        if (typeof value === "object" && value !== null) {
+          return renderCollapsible(key.replaceAll("_"," "), renderObject(value), styleMap[key]?.color || "gray", styleMap[key]?.icon || "📂");
+        }
+        const textClass = isDark ? 'text-gray-200' : 'text-gray-700';
+        const valueClass = isDark ? 'text-gray-400' : 'text-gray-600';
+        return `
+          <div class="flex justify-between border-b py-2">
+            <span class="font-medium ${textClass}">${key.replaceAll("_"," ")}</span>
+            <span class="${valueClass}">${value}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openSection(sectionEl, btnEl, iconEl) {
+      sectionEl.style.display = 'block';
+      const targetHeight = sectionEl.scrollHeight + 'px';
+      sectionEl.style.maxHeight = '0px';
+      sectionEl.getBoundingClientRect();
+      sectionEl.style.transition = 'max-height 360ms cubic-bezier(0.4,0,0.2,1)';
+      sectionEl.style.maxHeight = targetHeight;
+      iconEl.style.transform = 'rotate(180deg)';
+      btnEl.setAttribute('aria-expanded', 'true');
+      sectionEl.addEventListener('transitionend', () => { sectionEl.style.maxHeight = 'none'; }, { once: true });
+    }
+
+    function closeSection(sectionEl, btnEl, iconEl) {
+      const currentHeight = sectionEl.scrollHeight + 'px';
+      sectionEl.style.maxHeight = currentHeight;
+      sectionEl.getBoundingClientRect();
+      sectionEl.style.transition = 'max-height 320ms cubic-bezier(0.4,0,0.2,1)';
+      sectionEl.style.maxHeight = '0px';
+      iconEl.style.transform = 'rotate(0deg)';
+      btnEl.setAttribute('aria-expanded', 'false');
+      sectionEl.addEventListener('transitionend', () => { sectionEl.style.display = 'none'; }, { once: true });
+    }
+
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      const icon = document.getElementById(`chev-${id}`);
+      const btn = document.querySelector(`button[aria-controls="${id}"]`);
+      if (!section || !btn || !icon) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) closeSection(section, btn, icon);
+      else openSection(section, btn, icon);
+    }
+
+    function highlightText(text, query) {
+      if (!query) return text;
+      const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
+    }
+
+    function filterAndHighlight(sectionEl, query) {
+      const children = Array.from(sectionEl.children);
+      let anyVisible = false;
+
+      children.forEach(child => {
+        const keyText = child.querySelector('span.font-medium')?.textContent || '';
+        const valueText = child.querySelector('span.text-gray-600, span.text-gray-400')?.textContent || '';
+        const innerHTML = child.innerHTML;
+
+        if (keyText.toLowerCase().includes(query) || valueText.toLowerCase().includes(query) || innerHTML.toLowerCase().includes(query)) {
+          child.style.display = '';
+          child.innerHTML = innerHTML.replace(/<mark class="bg-yellow-200">|<\/mark>/g, '');
+          child.innerHTML = highlightText(innerHTML, query);
+          anyVisible = true;
+        } else {
+          child.style.display = 'none';
+        }
+
+        const nested = child.querySelectorAll('.collapse-content');
+        nested.forEach(n => { if (filterAndHighlight(n, query)) anyVisible = true; });
+      });
+
+      return anyVisible;
+    }
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const query = e.target.value.toLowerCase();
+      const content = document.getElementById('content');
+      filterAndHighlight(content, query);
+    });
+
+    // Dark Mode toggle
+    const darkToggle = document.getElementById('darkModeToggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      darkToggle.textContent = document.body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+      document.getElementById('content').innerHTML = renderObject(jsonData[0]);
+    });
+
+    // Initial render
+    document.getElementById('content').innerHTML = renderObject(jsonData[0]);
+  </script>
+</body>
+</html>

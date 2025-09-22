@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAIRagro – Data Fitness for Purpose</title>
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'  // allows toggling dark mode by adding 'dark' class to <html> or <body>
+    }
+  </script>
+  <!-- Alpine.js for interactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Chart.js for optional charts (renders only if numeric data present) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* subtle scrollbar styling */
+    ::-webkit-scrollbar { height: 8px; width: 8px; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    .chip {
+      @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
+            bg-slate-100 text-slate-700 hover:bg-slate-200
+            dark:bg-slate-600 dark:text-slate-100 dark:hover:bg-slate-500;
+    }    
+    .card { @apply bg-white rounded-2xl shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700; }
+    .section-title { @apply text-sm tracking-wide uppercase text-slate-500 font-semibold dark:text-slate-400; }
+    .kbd { @apply px-1.5 py-0.5 rounded-md border border-slate-300 text-[11px] font-mono dark:border-slate-600 dark:text-slate-300; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200" x-data="app()" x-init="init()">
+  <!-- Header -->
+  <header class="sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/80 bg-white/60 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-emerald-500 text-white grid place-content-center font-bold">DF</div>
+        <div>
+          <h1 class="text-lg font-semibold">Data Fitness for Purpose</h1>
+          <p class="text-xs text-slate-500">Render Use Case + Fitness metrics from JSON</p>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-xs text-slate-500">
+        <span class="kbd">L</span> Load &nbsp; <span class="kbd">/</span> Search
+        <button @click="darkMode = !darkMode" class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 ml-4">
+          <span x-text="darkMode ? '☀️ Light' : '🌙 Dark'"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Left: Input -->
+    <section class="lg:col-span-4 card p-4 lg:sticky lg:top-20 lg:self-start">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h2 class="font-semibold">1) Paste JSON (ApplicationDataMatrix)</h2>
+          <p class="text-sm text-slate-500">Paste an array of documents. Click <em>Load JSON</em>.</p>
+        </div>
+        <label class="chip cursor-pointer">
+          <input id="fileInput" type="file" accept="application/json" class="hidden" @change="loadFromFile($event)"/>
+          Import JSON
+        </label>
+      </div>
+
+      <textarea x-model="raw" class="mt-3 w-full h-60 rounded-xl border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-3 font-mono"></textarea>
+
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700" @click="load()">Load JSON</button>
+        <button class="px-4 py-2 rounded-xl bg-slate-800 text-white hover:bg-black" @click="downloadJSON()">Download JSON</button>
+        <button class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200" @click="exportCSV()">Export table CSV</button>
+      </div>
+
+      <div class="mt-4">
+        <label class="section-title">Filters</label>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <select x-model="filters.spatial" class="rounded-xl border-slate-300 text-sm">
+            <option value="">Spatial: Any</option>
+            <template x-for="opt in spatialOptions"><option :value="opt" x-text="opt"></option></template>
+          </select>
+          <select x-model="filters.temporal" class="rounded-xl border-slate-300 text-sm">
+            <option value="">Temporal: Any</option>
+            <template x-for="opt in temporalOptions"><option :value="opt" x-text="opt"></option></template>
+          </select>
+          <select x-model="filters.repro" class="rounded-xl border-slate-300 text-sm col-span-2">
+            <option value="">Reproducibility: Any</option>
+            <option>High</option><option>Moderate</option><option>Low</option>
+          </select>
+        </div>
+        <input x-model="q" type="search" placeholder="Search strengths, limitations, metrics…" class="mt-2 w-full rounded-xl border-slate-300 text-sm"/>
+      </div>
+    </section>
+
+    <!-- Right: Results -->
+    <section class="lg:col-span-8">
+      <template x-if="items.length===0">
+        <div class="card p-8 text-center text-slate-500">No items yet. Paste JSON and click <span class="font-semibold">Load JSON</span>.</div>
+      </template>
+
+      <template x-for="(it, idx) in filtered" :key="idx">
+        <article class="card p-0 overflow-hidden">
+          <!-- Summary bar -->
+          <div class="bg-gradient-to-r from-emerald-50 to-sky-50 
+                      dark:from-slate-800 dark:to-slate-700
+                      px-4 py-3 border-b border-slate-200 dark:border-slate-700">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="min-w-0">
+                <h3 class="text-base font-semibold truncate" x-text="it.document?.title || 'Untitled'"></h3>
+                <div class="text-xs text-slate-500 mt-0.5 flex flex-wrap gap-2">
+                  <span x-text="(it.document?.authors||[]).join(', ')"></span>
+                  <span x-show="it.document?.publication_year">• <span x-text="it.document.publication_year"></span></span>
+                  <template x-if="it.document?.doi">
+                    <a class="underline decoration-dotted hover:text-emerald-700" :href="'https://doi.org/'+it.document.doi" target="_blank">• DOI</a>
+                  </template>
+                  <span x-show="it.document?.source">• <span x-text="it.document.source"></span></span>
+                </div>
+                <!-- Summary -->
+                <div class="mt-2">
+                  <div class="section-title text-sm font-semibold">Summary</div>
+                  <p class="mt-1 text-sm text-slate-700 dark:text-slate-300 leading-relaxed" x-text="it.document?.summary"></p>
+                </div>
+
+                <!-- Keywords -->
+
+              </div>
+              <div class="flex flex-wrap items-center gap-2 mt-1">
+                <span class="section-title text-sm mr-2">Keywords:</span>
+                <template x-for="kw in it.document?.keywords || []">
+                  <span class="text-xs text-slate-500 dark:text-slate-400 font-medium px-1.5 py-0.5 border border-slate-200 dark:border-slate-700 rounded-md" x-text="`${kw}`"></span>
+                </template>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="p-4">
+            <!-- Top row cards -->
+            <div class="grid sm:grid-cols-2 gap-4">
+              <!-- Combined Application & Coverage -->
+              <div class="card p-4 sm:col-span-2 space-y-4"> <!-- full width -->
+                <!-- Application -->
+                <div>
+                  <div class="section-title text-sm font-semibold mb-2">Application</div>
+                  <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <template x-for="a in it.application_area || []">
+                      <span class="inline-block px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-medium rounded mr-1 mb-1" x-text="a"></span>
+                    </template>
+                  </p>
+                  <p class="mt-2 text-sm text-slate-700 dark:text-slate-300 leading-relaxed" x-text="it.intended_use"></p>
+                </div>
+
+                <!-- Coverage -->
+                <div>
+                  <div class="section-title text-sm font-semibold mb-2">Coverage</div>
+                  <table class="text-sm text-slate-700 dark:text-slate-300 w-full border-collapse">
+                    <tbody>
+                      <tr>
+                        <td class="font-semibold text-slate-500 dark:text-slate-400 py-1 pr-2 align-top">Spatial</td>
+                        <td class="py-1" x-text="it.spatial_scale"></td>
+                      </tr>
+                      <tr>
+                        <td class="font-semibold text-slate-500 dark:text-slate-400 py-1 pr-2 align-top">Temporal</td>
+                        <td class="py-1" x-text="it.temporal_scale"></td>
+                      </tr>
+                      <tr>
+                        <td class="font-semibold text-slate-500 dark:text-slate-400 py-1 pr-2 align-top">Geo</td>
+                        <td class="py-1" x-text="(it.geographical_coverage||[]).join('; ')"></td>
+                      </tr>
+                      <tr>
+                        <td class="font-semibold text-slate-500 dark:text-slate-400 py-1 pr-2 align-top">Window</td>
+                        <td class="py-1" x-text="dateRange(it)"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tabs -->
+            <div class="mt-4" x-data="tabs('fitness')">
+              <div class="flex gap-2 border-b border-slate-200">
+                <template x-for="t in tabList">
+                  <button @click="active=t.id" :class="active===t.id ? 'bg-white border-b-2 border-emerald-600 text-emerald-700' : 'text-slate-600'" class="px-3 py-2 -mb-px rounded-t-xl">
+                    <span x-text="t.label"></span>
+                  </button>
+                </template>
+              </div>
+
+              <!-- Fitness metrics -->
+              <section x-show="is('fitness')" class="pt-4 space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="card p-4">
+                    <h4 class="font-semibold mb-2">Global metrics</h4>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                      <template x-for="m in (it.fitness_for_use_metrics?.global_ || it.validation?.metrics?.global_?.metrics || [])">
+                        <li x-text="m"></li>
+                      </template>
+                    </ul>
+                    <template x-if="it.validation?.metrics?.global_?.description">
+                      <p class="mt-3 text-xs text-slate-500" x-text="it.validation.metrics.global_.description"></p>
+                    </template>
+                  </div>
+                  <div class="card p-4">
+                    <h4 class="font-semibold mb-2">Local metrics</h4>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                      <template x-for="m in (it.fitness_for_use_metrics?.local || it.validation?.metrics?.local?.metrics || [])">
+                        <li x-text="m"></li>
+                      </template>
+                    </ul>
+                    <template x-if="it.validation?.metrics?.local?.description">
+                      <p class="mt-3 text-xs text-slate-500" x-text="it.validation.metrics.local.description"></p>
+                    </template>
+                  </div>
+                </div>
+
+                <!-- Optional charts: per-class accuracy if numeric arrays exist (producer/users) -->
+                <template x-if="chartable(it).length">
+                  <div class="card p-4">
+                    <div class="flex items-center justify-between mb-2">
+                      <h4 class="font-semibold">Per-class accuracy (if provided)</h4>
+                      <span class="text-xs text-slate-500">Auto-generated from numeric arrays</span>
+                    </div>
+                    <canvas :id="'chart-'+idx" height="140" x-init="$nextTick(()=>renderChart('chart-'+idx, chartable(it)))"></canvas>
+                  </div>
+                </template>
+              </section>
+
+              <!-- Validation & Uncertainty -->
+              <section x-show="is('validation')" class="pt-4 space-y-4">
+                <div class="card p-4">
+                  <h4 class="font-semibold mb-2">Validation</h4>
+                  <p class="text-sm" x-text="it.validation?.method"></p>
+                  <div class="grid sm:grid-cols-2 gap-4 mt-3">
+                    <div>
+                      <div class="section-title">Uncertainty – Global</div>
+                      <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                        <template x-for="u in (it.validation?.uncertainty_handling?.global_ || [])"><li x-text="u"></li></template>
+                      </ul>
+                    </div>
+                    <div>
+                      <div class="section-title">Uncertainty – Local</div>
+                      <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                        <template x-for="u in (it.validation?.uncertainty_handling?.local || [])"><li x-text="u"></li></template>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Reproducibility, Strengths, Limitations -->
+              <section x-show="is('quality')" class="pt-4 space-y-4">
+                <div class="grid md:grid-cols-3 gap-4">
+                  <div class="card p-4 md:col-span-1">
+                    <h4 class="font-semibold mb-2">Reproducibility</h4>
+                    <p class="text-sm" x-text="it.reproducibility"></p>
+                  </div>
+                  <div class="card p-4 md:col-span-1">
+                    <h4 class="font-semibold mb-2">Strengths</h4>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                      <template x-for="s in it.strengths || []"><li x-text="s"></li></template>
+                    </ul>
+                  </div>
+                  <div class="card p-4 md:col-span-1">
+                    <h4 class="font-semibold mb-2">Limitations</h4>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                      <template x-for="s in it.limitations || []"><li x-text="s"></li></template>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="card p-4">
+                    <h4 class="font-semibold mb-2">Recommended Context</h4>
+                    <p class="text-sm" x-text="it.recommended_context"></p>
+                  </div>
+                  <div class="card p-4">
+                    <h4 class="font-semibold mb-2">Not Suitable For</h4>
+                    <p class="text-sm" x-text="it.not_suitable_for"></p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Reasoning + References -->
+              <section x-show="is('more')" class="pt-4 space-y-4">
+                <div class="card p-4">
+                  <h4 class="font-semibold mb-2">Reasoning</h4>
+                  <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <div class="section-title">Core Problem</div>
+                      <p class="mt-1" x-text="it.reasoning?.core_problem"></p>
+                      <div class="section-title mt-3">Input Data</div>
+                      <p class="mt-1" x-text="it.reasoning?.input_data"></p>
+                      <div class="section-title mt-3">Tools & Models</div>
+                      <p class="mt-1" x-text="it.reasoning?.tools_models"></p>
+                    </div>
+                    <div>
+                      <div class="section-title">Processing</div>
+                      <p class="mt-1" x-text="it.reasoning?.processing"></p>
+                      <div class="section-title mt-3">Benefits</div>
+                      <p class="mt-1" x-text="it.reasoning?.output_benefit"></p>
+                      <div class="section-title mt-3">Beneficiaries</div>
+                      <p class="mt-1" x-text="it.reasoning?.beneficiaries"></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card p-4">
+                  <h4 class="font-semibold mb-2">References</h4>
+                  <ul class="list-disc list-inside text-sm space-y-1">
+                    <template x-for="r in it.key_references || []">
+                      <li x-text="r"></li>
+                    </template>
+                  </ul>
+                </div>
+              </section>
+            </div>
+          </div>
+        </article>
+      </template>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 text-center text-xs text-slate-500">
+    Built with Tailwind, Alpine.js, and Chart.js. Paste your JSON and explore.
+  </footer>
+
+  <script>
+    function app(){
+      return {
+        raw: `[
+  {
+    "document": {
+      "title": "Validation of uncertainty predictions in digital soil mapping",
+      "authors": [
+        "Jonas Schmidinger",
+        "Gerard B.M. Heuvelink"
+      ],
+      "doi": "10.1016/j.geoderma.2023.116585",
+      "publication_year": 2023,
+      "summary": "The paper reviews and demonstrates more comprehensive validation procedures for probabilistic predictions in digital soil mapping (DSM). It highlights limitations of the commonly used prediction interval coverage probability (PICP) — notably its inability to detect one-sided bias — and introduces alternative and complementary validation tools from the probabilistic forecasting literature: quantile coverage probability (QCP), probability integral transform (PIT) histograms, and proper scoring rules (interval score (IS), continuous ranked probability score (CRPS) and its reliability decomposition (RELI)). The methods are illustrated in a case study using pH and log(SOC) from the LUCAS-soil 2015 dataset (Germany and Benelux) comparing five probabilistic models (null model, quantile regression forest (QRF), quantile-regression post-processed RF (QRPP RF), kriging with external drift (KED), and quantile regression neural network (QRNN)). The paper provides recommendations to complement or replace PICP with QCP/PIT and to use scoring rules for model comparison.",
+      "keywords": [
+        "Validation",
+        "Digital soil mapping",
+        "Uncertainty",
+        "Machine learning",
+        "Proper scoring rules",
+        "Quantile regression"
+      ],
+      "source": "Geoderma"
+    },
+    "application_area": [
+      "Digital soil mapping",
+      "Uncertainty quantification and validation",
+      "Spatial environmental modelling"
+    ],
+    "intended_use": "Define and demonstrate a robust validation framework for probabilistic (uncertainty) predictions in DSM; provide practitioners and researchers with diagnostics and scoring tools to assess reliability and sharpness of predictive distributions and to compare competing probabilistic models.",
+    "spatial_scale": "Regional (Germany and Benelux study area); methods applicable at point or map-grid resolution where covariates and sample data exist",
+    "temporal_scale": "Cross-sectional (based on LUCAS-soil 2015 samples); validation experiments run across multiple random train/test splits (repeated resampling)",
+    "validation": {
+      "method": "Repeated random data-splitting (outer loop S=25) into training (75%) and test (25%) sets; hyperparameter tuning via inner K-fold cross-validation (K=5) on training data (grid search). Probabilistic outputs validated using reliability diagnostics (PICP, QCP, PIT histograms), sharpness (prediction interval width PIW), and proper scoring rules for model comparison (IS, CRPS, RELI).",
+      "metrics": {
+        "global_": {
+          "metrics": [
+            "Prediction Interval Coverage Probability (PICP)",
+            "Quantile Coverage Probability (QCP)",
+            "Probability Integral Transform (PIT) histogram",
+            "Prediction Interval Width (PIW)",
+            "Interval Score (IS)",
+            "Continuous Ranked Probability Score (CRPS)",
+            "Median CRPS",
+            "RELI (reliability component of CRPS decomposition)",
+            "Root Mean Square Error (RMSE)",
+            "Mean Error (ME)",
+            "Nash–Sutcliffe Model Efficiency Coefficient (MEC)"
+          ],
+          "description": "Reliability diagnostics: PICP (coverage of central PIs), QCP (coverage of single quantiles) and PIT (uniformity of percentiles). Sharpness: PIW. Comparative scoring: IS (PI-based proper score), CRPS (full-CDF proper score) and its decomposition yielding RELI as a numerical reliability summary. Point-prediction metrics (RMSE, ME, MEC) used to contextualize sharpness and point-performance.",
+          "example_reference": "Gneiting and Raftery (2007); Lauret et al. (2019); Pinson and Tastu (2014)"
+        },
+        "local": null
+      },
+      "uncertainty_handling": {
+        "global_": [
+          "Predictive distributions estimated either parametrically (KED: Gaussian predictive CDF using kriging variances) or non-parametrically from predicted quantiles (QRF, QRNN, QRPP RF, NM empirical CDF).",
+          "Quantile set: 199 quantiles (0.5% to 99.5%) used to approximate continuous CDFs when required."
+        ],
+        "local": [
+          "Location-specific predictive CDFs produced at each test location; PIT and QCP diagnostics computed per-location and aggregated over test set to assess spatially-distributed reliability."
+        ]
+      }
+    },
+    "reproducibility": "Code implemented in R (R Core Team, 2023) using packages: quantregForest, randomForest, quantreg, automap, gstat, qrnn, verification (crpsDecomposition). Inner-loop grid search (hyperparameter tuning) used K=5 CV; outer loop repeated random splits S=25. Data: LUCAS-soil 2015 used for pH and SOC (log-transformed SOC) with pre-processed covariates from Poggio et al. (2021). Data sharing: authors state they do not have permission to share the data; data must be requested from original providers. Supplementary information and implementation details available at the article DOI.",
+    "strengths": [
+      "Introduces and compares multiple probabilistic validation tools (QCP, PIT, IS, CRPS, RELI) that address limitations of PICP (notably one-sided bias).",
+      "Applies framework in a realistic DSM case study with multiple models (machine learning and geostatistics) and two soil properties, demonstrating practical differences and trade-offs.",
+      "Uses repeated resampling (outer loop) and inner CV for tuning, providing robust aggregated performance summaries.",
+      "Provides clear recommendations for practitioners (use QCP/PIT alongside or instead of PICP; use scoring rules for model comparison)."
+    ],
+    "limitations": [
+      "Study limited to two soil properties (pH and log(SOC)) and one regional dataset (LUCAS-soil 2015 for Germany and Benelux); generalization to other regions/properties needs testing.",
+      "Hyperparameter tuning optimized point-prediction performance (not directly probabilistic objectives), which may affect probabilistic performance (noted particularly for QRNN).",
+      "CRPS and IS are sensitive to outliers; interval-score depends on chosen PI level; single-number summaries can hide distributional pathologies without accompanying diagnostics.",
+      "Data access restricted (authors cannot share data), limiting direct replication without requesting data from providers."
+    ],
+    "recommended_context": "Validation of probabilistic predictions and uncertainty maps in digital soil mapping and similar geospatial predictive contexts. Use QCP and PIT histograms to detect one-sided bias and assess calibration; use RELI to summarize reliability; use CRPS and IS (and median CRPS) for relative ranking of competing probabilistic models, being mindful of sensitivity to outliers.",
+    "not_suitable_for": "Sole reliance on PICP for reliability assessment (can hide one-sided bias); contexts where only point-prediction tuning was performed without attention to probabilistic calibration; applications where data cannot provide independent test samples or where sampling design invalidates the validation strategy.",
+    "reasoning": {
+      "core_problem": "Probabilistic predictions in DSM are increasingly produced but their validation is often limited (commonly PICP), which can hide calibration issues such as one-sided bias and provide insufficient information for users and model selection.",
+      "input_data": "LUCAS-soil 2015 observations (pH in CaCl2 and SOC transformed to log(SOC)), pre-processed spatial covariates (89 after correlation/variance filtering) from Poggio et al. (2021).",
+      "tools_models": "Five probabilistic approaches compared: Null model (empirical CDF), Quantile Regression Forest (QRF), Quantile Regression Post-Processing of RF (QRPP RF), Kriging with External Drift (KED, Gaussian predictive CDF), and Quantile Regression Neural Network (QRNN). R packages used: quantregForest, randomForest, quantreg, gstat, automap, qrnn, verification.",
+      "processing": "Data split repeated S=25 times into train (75%) / test (25%); inner K-fold (K=5) CV grid search for hyperparameters (optimizing point predictions). Predictive CDFs obtained parametrically (KED) or via 199 quantiles (0.5%–99.5%) approximated to CDFs. Validation computed per test set and aggregated: PICP, QCP, PIT histograms, PIW, IS(τ) across τ values, CRPS (and median) and RELI; results compared across models and soil properties.",
+      "output_benefit": "A practical validation framework and diagnostics that reveal calibration issues (e.g., one-sided bias) missed by PICP, help compare competing probabilistic models, and guide practitioners to deliver better uncertainty information with DSM maps.",
+      "beneficiaries": "Soil scientists, pedometricians, geostatisticians, environmental modellers, and end users of soil maps who rely on uncertainty information for decision-making or further modelling.",
+      "reproducibility": "Methods are reproducible given access to data and R packages; authors provided implementation details and packages used; however, raw LUCAS subset used must be requested from data providers and hyperparameter grids/seed settings should be recorded to reproduce exact runs."
+    },
+    "fitness_for_use_metrics": {
+      "global_": [
+        "Use QCP and PIT histograms to detect calibration issues including one-sided bias (preferred over or complementary to PICP).",
+        "Use PIW to quantify sharpness (narrower PIs = higher sharpness) and interpret alongside reliability diagnostics.",
+        "Use RELI to summarize reliability across quantiles into a single numeric value.",
+        "Use CRPS and IS (and median CRPS) as proper scoring rules for relative comparison/ranking of competing probabilistic models; note sensitivity to outliers and dependence of IS on PI level.",
+        "Report point-prediction metrics (RMSE, ME, MEC) alongside probabilistic metrics to contextualize sharpness and model quality."
+      ],
+      "local": null,
+      "optimization_diagnostics": [
+        "Hyperparameter tuning performed with inner 5-fold CV on training sets (grid search); tuning optimized point predictions — consider optimizing probabilistic objectives (e.g., CRPS) if probabilistic performance is a priority."
+      ],
+      "recommendation": "Adopt a combined validation protocol: compute PIW, PICP, QCP and PIT for reliability/sharpness diagnosis and use CRPS/IS (with RELI) for model comparison. Prefer QCP/PIT when wanting to detect one-sided bias. Where scoring rules are used, report median CRPS to mitigate outlier sensitivity."
+    },
+    "geographical_coverage": [
+      "Germany",
+      "Benelux"
+    ],
+    "temporal_coverage_start": "2015-01-01",
+    "temporal_coverage_end": "2015-12-31",
+    "key_references": [
+      "Gneiting, T., Raftery, A.E., 2007. Strictly proper scoring rules, prediction, and estimation.",
+      "Lauret, P., David, M., Pinson, P., 2019. Verification of solar irradiance probabilistic forecasts.",
+      "Pinson, P., Tastu, J., 2014. Discussion on limitations of PICP regarding one-sided bias.",
+      "Kasraei, B., et al., 2021. Quantile regression as a generic approach for estimating uncertainty of digital soil maps.",
+      "Heuvelink, G.B.M., 2018. Uncertainty and Uncertainty Propagation in Soil Mapping and Modelling.",
+      "Meinshausen, N., 2006. Quantile regression forests.",
+      "Hersbach, H., 2000. Decomposition of the continuous ranked probability score for ensemble prediction systems."
+    ]
+  }
+]`,
+        items: [],
+        spatialOptions: [],
+        temporalOptions: [],
+        filters: { spatial: '', temporal: '', repro: '' },
+        q: '',
+        darkMode: false,  // <-- NEW: reactive dark mode state
+        get filtered(){
+          const q = this.q.toLowerCase();
+          return this.items.filter(it => {
+            const passSpatial = !this.filters.spatial || (it.spatial_scale||'').toLowerCase().includes(this.filters.spatial.toLowerCase());
+            const passTemporal = !this.filters.temporal || (it.temporal_scale||'').toLowerCase().includes(this.filters.temporal.toLowerCase());
+            const passRepro = !this.filters.repro || (it.reproducibility||'').toLowerCase().includes(this.filters.repro.toLowerCase());
+            const blob = JSON.stringify(it).toLowerCase();
+            const passQ = !q || blob.includes(q);
+            return passSpatial && passTemporal && passRepro && passQ;
+          })
+        },
+        init(){
+          window.addEventListener('keydown', (e)=>{ if(e.key==='l' || e.key==='L'){ this.load(); } });
+
+          // Load previous dark mode setting
+          this.darkMode = localStorage.getItem('darkMode') === 'true';
+          
+          this.$watch('darkMode', val => {
+            if(val) document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', val);
+          });
+        },
+        
+        load(){
+          try{
+            const parsed = JSON.parse(this.raw);
+            this.items = Array.isArray(parsed) ? parsed : [parsed];
+            this.spatialOptions = uniq(this.items.map(it=>it.spatial_scale).filter(Boolean));
+            this.temporalOptions = uniq(this.items.map(it=>it.temporal_scale).filter(Boolean));
+          }catch(err){
+            alert('Invalid JSON: '+ err.message);
+          }
+        },
+        loadFromFile(e){
+          const file = e.target.files?.[0];
+          if(!file) return;
+          const reader = new FileReader();
+          reader.onload = ()=>{ this.raw = reader.result; };
+          reader.readAsText(file);
+        },
+        downloadJSON(){
+          const blob = new Blob([JSON.stringify(this.items, null, 2)], {type:'application/json'});
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = 'application-data-matrix.json'; a.click();
+        },
+        exportCSV(){
+          if(!this.items.length){ alert('Nothing to export'); return; }
+          const rows = [['Title','Authors','Year','DOI','Spatial','Temporal','Reproducibility']];
+          this.items.forEach(it=>{
+            rows.push([
+              safe(it.document?.title),
+              safe((it.document?.authors||[]).join('; ')),
+              safe(it.document?.publication_year),
+              safe(it.document?.doi),
+              safe(it.spatial_scale),
+              safe(it.temporal_scale),
+              safe(it.reproducibility)
+            ]);
+          });
+          const csv = rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
+          const blob = new Blob([csv], {type:'text/csv'});
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = 'summary.csv'; a.click();
+        },
+        dateRange(it){
+          const s = it.temporal_coverage_start, e = it.temporal_coverage_end;
+          if(!s && !e) return '—';
+          const fmt = (d)=> new Date(d).toISOString().slice(0,10);
+          return `${s?fmt(s):'?' } → ${e?fmt(e):'?'} `;
+        },
+        chartable(it){
+          // Detect optional numeric arrays: it.metrics_per_class = [{class:"A", producer:0.9, user:0.88}, …]
+          return Array.isArray(it.metrics_per_class) ? it.metrics_per_class : [];
+        }
+      }
+    }
+
+    function tabs(defaultId){
+      return {
+        active: defaultId,
+        tabList: [
+          {id:'fitness', label:'Fitness Metrics'},
+          {id:'validation', label:'Validation & Uncertainty'},
+          {id:'quality', label:'Reproducibility & QoE'},
+          {id:'more', label:'Reasoning & References'}
+        ],
+        is(id){ return this.active===id; }
+      }
+    }
+
+    function renderChart(canvasId, data){
+      const ctx = document.getElementById(canvasId);
+      if(!ctx) return;
+      const labels = data.map(d=>d.class||d.name||'Class');
+      const producer = data.map(d=>Number(d.producer||d.producers_accuracy||0));
+      const user = data.map(d=>Number(d.user||d.users_accuracy||0));
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: "Producer's accuracy", data: producer },
+            { label: "User's accuracy", data: user }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true, max: 1 } },
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    // helpers
+    function uniq(arr){ return [...new Set(arr)]; }
+    function safe(v){ return (v===undefined || v===null) ? '' : v; }
+  </script>
+</body>
+</html>
