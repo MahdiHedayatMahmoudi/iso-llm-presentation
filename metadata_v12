@@ -20,18 +20,21 @@
 
 
 
-    "schema:isBasedOn": {
-      "@type": "schema:CreativeWork",
-      "@id": "https://doi.org/10.20387/bonares-je6g-9896",
-      "schema:name": "Concept record for PHASE Crop Phenological Dataset series"
-    },
 
-
-  "schema:isPartOf": {
+  "schema:isBasedOn": {
     "@type": "schema:CreativeWork",
-    "@id": "https://doi.org/10.20387/bonares-je6g-9896"
+    "schema:name": "Concept record for PHASE Crop Phenological Dataset series",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
   },
 
+
+
+
+    "schema:isPartOf": {
+    "@type": "schema:CreativeWork",
+    "schema:name": "PHASE Crop Phenological Dataset Series",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+  },
 
 
   "schema:dateModified": "2025-06-23T12:00:00Z",
@@ -46,15 +49,17 @@
   ],
 
 
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:name": "DOI: 10.20387/bonares-je6g-9896",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "doi:10.20387/bonares-je6g-9896",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+  },
 
 
-    "schema:identifier": {
-      "@type": "schema:PropertyValue",
-      "schema:name": "DOI: 10.20387/bonares-je6g-9896",
-      "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-      "schema:value": "doi:10.20387/bonares-je6g-9896",
-      "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
-    },
+
+
 
 
 
@@ -86,12 +91,7 @@
 
 
   "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
-
-  "schema:license": {
-    "@type": "URL",
-    "@id": "https://creativecommons.org/licenses/by/4.0/"
-  },
-
+  "schema:license": "https://creativecommons.org/licenses/by/4.0/",
 
 
 
@@ -590,15 +590,20 @@
 
 
 
+
+
   "schema:hasPart": {
-  "@id": "https://julius-kuehn.de/fairagro/application_matrix.json",
-  "@type": "schema:MediaObject",
-  "schema:name": "Application Matrix for PHASE Crop Phenological Dataset",
-  "schema:contentUrl": "https://julius-kuehn.de/fairagro/application_matrix.json",
-  "schema:fileFormat": "application/json",
-  "schema:encodingFormat": "application/json",
-  "schema:description": "Detailed matrix of application areas, use cases, input data, analysis techniques, software components, and stakeholder relevance for the PHASE crop phenological dataset."
-  },
+    "@id": "./application_matrix.json",
+    "@type": "schema:CreativeWork",
+    "schema:name": "Application Matrix",
+    "schema:description": "Matrix describing dataset applications, use cases, strengths, limitations, and reproducibility."
+    },
+  "schema:mainEntity": {
+    "@id": "./application_matrix.json",
+    "@type": "schema:CreativeWork",
+    "schema:description": "Provides intended use, validation methods, strengths, limitations, and reproducibility for this dataset."
+    },
+
 
 
   "workflow_context": {
