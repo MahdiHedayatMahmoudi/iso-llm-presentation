@@ -1,0 +1,719 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dc": "http://purl.org/dc/terms/",
+    "schema": "https://schema.org/",
+    "bioschemas": "https://bioschemas.org/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "agrovoc": "http://aims.fao.org/aos/agrovoc/"
+  },
+
+  "@id": "https://doi.org/10.20387/bonares-je6g-9896.v4",
+  "@type": [
+  "schema:Dataset",
+  "dcat:Dataset"
+  ],
+
+
+
+
+
+  "schema:isBasedOn": {
+    "@type": "schema:CreativeWork",
+    "schema:name": "Concept record for PHASE Crop Phenological Dataset series",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+  },
+
+
+
+
+    "schema:isPartOf": {
+    "@type": "schema:CreativeWork",
+    "schema:name": "PHASE Crop Phenological Dataset Series",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+  },
+
+
+  "schema:dateModified": "2025-06-23T12:00:00Z",
+
+  "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v3",
+
+  "schema:version": "4.0.0",
+
+  "skos:note": [
+  "Major update: updated TMIT inputs, revised interpolation metrics, enhanced validation coverage.",
+  "Version 4.0.0 (2025-06-23): Added 2023 meteorological TMIT files, enhanced spatial validation layers, and revised model parameters. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
+  ],
+
+
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:name": "DOI: 10.20387/bonares-je6g-9896",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "doi:10.20387/bonares-je6g-9896",
+    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+  },
+
+
+  "schema:creator": [
+    { "@type": "schema:Person", "schema:name": "Author1" },
+    { "@type": "schema:Person", "schema:name": "Author2" },
+    { "@type": "schema:Person", "schema:name": "Author3" }
+  ],
+  "schema:contributor": [
+    { "@type": "schema:Organization", "schema:name": "NFDI FAIRagro Consortium" }
+  ],
+  "schema:publisher": {
+    "@type": "schema:Organization",
+    "schema:name": "Julius Kühn-Institut (JKI) – Federal Research Centre for Cultivated Plants"
+  },
+  "schema:datePublished": "2025-06-23",
+  "schema:funder": [
+    {
+      "@type": "schema:Organization",
+      "schema:name": "NFDI4Agri – FAIRagro",
+      "schema:identifier": "https://www.fairagro.net/"
+    }
+  ],
+
+
+
+  "schema:name": "PHASE Crop Phenological Development Dataset (1993–2022)",
+
+
+
+  "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
+  "schema:license": "https://creativecommons.org/licenses/by/4.0/",
+
+
+
+  "schema:temporalCoverage": "1993-01-01/2022-12-31",
+  "schema:spatialCoverage": {
+    "@type": "schema:Place",
+    "schema:name": "Germany (PHASE Model domain)",
+    "schema:description": "Spatial extent of the PHASE model grid covering Germany and border buffer zones (1 km resolution).",
+    "schema:geo": {
+      "@type": "schema:GeoShape",
+      "schema:box": "47.2701 5.8663 55.0992 15.0419"
+    },
+    "schema:additionalProperty": [
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "spatialReferenceSystem",
+        "schema:value": "http://www.opengis.net/def/crs/EPSG/0/4326",
+        "schema:description": "WGS 84 geographic coordinate system"
+      }
+    ]
+  },
+
+
+
+
+    "schema:measurementTechnique": [
+    "Geostatistical interpolation of growing degree days using PHASE model at 1 km daily resolution"
+    ],
+
+
+
+  "schema:variableMeasured": [
+    {
+    "@type": "schema:PropertyValue",
+    "schema:name": "Temporal Resolution",
+    "schema:description": "Temporal frequency of dataset values",
+    "schema:value": 1,
+    "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Day of Year (DOY)",
+      "schema:description": "Interpolated start date of a crop phenological phase",
+      "schema:unitCode": "DAY",
+      "schema:measurementTechnique": "Geostatistical interpolation using PHASE model"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Spline Standard Error (SSE)",
+      "schema:description": "Uncertainty metric derived from spatial interpolation",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Filtered Observation Variant",
+      "schema:description": "DOY values calculated after spatial-temporal outlier filtering",
+      "schema:unitCode": "DAY",
+      "schema:measurementTechnique": "Spatial-temporal outlier filtering of DOY values"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Mean Absolute Error (MAE)",
+      "schema:description": "Average absolute deviation between modelled and observed DOY",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Root Mean Square Error (RMSE)",
+      "schema:description": "Square root of the average squared differences between predictions and observations",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Coefficient of Determination (R²)",
+      "schema:description": "Explained variance metric for model performance"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Kolmogorov–Smirnov Test (KS)",
+      "schema:description": "Statistical test comparing empirical cumulative distributions of observed and simulated values"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Correlation (COR)",
+      "schema:description": "Correlation between observed and predicted DOY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Optimal Score (OPT)",
+      "schema:description": "Composite metric: SN × COR / MAE"
+    }
+  ],
+
+
+
+  "schema:about": [
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:202",
+      "schema:name": "Winter Wheat",
+      "schema:alternateName": ["Common Wheat"],
+      "schema:additionalType": "http://purl.obolibrary.org/obo/AGRO_00000325",
+      "schema:taxonomicRange": "Triticum aestivum",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "202"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "season",
+          "schema:value": "winter"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_8412",
+          "schema:value": "winter wheat",
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_8412"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:203",
+      "schema:name": "Winter Rye",
+      "schema:alternateName": ["Rye"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_14010",
+      "schema:taxonomicRange": "Secale cereale",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "203"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "season",
+          "schema:value": "winter"
+        },
+        { 
+          "@type": "schema:PropertyValue", 
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_14010", 
+          "schema:value": "rye", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_14010"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:204",
+      "schema:name": "Winter Barley",
+      "schema:alternateName": ["Barley"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_5b8bcf68",
+      "schema:taxonomicRange": "Hordeum vulgare",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "204"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "season",
+          "schema:value": "winter"
+        },
+        { 
+          "@type": "schema:PropertyValue", 
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_5b8bcf68", 
+          "schema:value": "barley", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_5b8bcf68"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:205",
+      "schema:name": "Winter Rape",
+      "schema:alternateName": ["Rapeseed", "Canola", "Colza"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_25499",
+      "schema:taxonomicRange": "Brassica napus",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "205"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "season",
+          "schema:value": "winter"
+        },
+        { 
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_25499",
+          "schema:value": "rapeseed", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_25499" 
+        }
+      ],
+      "schema:sameAs": ["https://lod.nal.usda.gov/nalt/19456"]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:208",
+      "schema:name": "Summer Oat",
+      "schema:alternateName": ["Oat", "Common Oat"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_731",
+      "schema:taxonomicRange": "Avena sativa",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "208"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "season",
+          "schema:value": "summer"
+        },
+        { 
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_731",
+          "schema:value": "oat", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_731"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:215",
+      "schema:name": "Maize",
+      "schema:alternateName": ["Corn"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_12332",
+      "schema:taxonomicRange": "Zea mays",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "215"
+        },
+        { 
+          "@type": "schema:PropertyValue", 
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_12332", 
+          "schema:value": "maize", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_12332"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:252",
+      "schema:name": "Grass (for fodder)",
+      "schema:alternateName": ["Fodder Grass"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_2832",
+      "schema:taxonomicRange": "Poaceae",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "252"
+        },
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "use",
+          "schema:value": "fodder"
+        },
+        { 
+          "@type": "schema:PropertyValue", 
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_2832", 
+          "schema:value": "feed grasses", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_2832"
+        }
+      ]
+    },
+    {
+      "@type": "bioschemas:BioSample",
+      "@id": "urn:julius-kuehn:crop:253",
+      "schema:name": "Sugar Beet",
+      "schema:alternateName": ["Beetroot"],
+      "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_7499",
+      "schema:taxonomicRange": "Beta vulgaris",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "localCropID",
+          "schema:value": "253"
+        },
+        { 
+          "@type": "schema:PropertyValue", 
+          "schema:propertyID": "http://aims.fao.org/aos/agrovoc/c_7499", 
+          "schema:value": "sugar beet", 
+          "schema:url": "https://agrovoc.fao.org/browse/agrovoc/en/page/c_7499"
+        }
+      ]
+    },
+    {
+      "@id": "http://aims.fao.org/aos/agrovoc/c_803",
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Agriculture",
+      "schema:inDefinedTermSet": "https://agrovoc.fao.org/browse/agrovoc/en/"
+    },
+    {
+      "@id": "http://inspire.ec.europa.eu/theme/agr",
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Agricultural and aquaculture facilities",
+      "schema:inDefinedTermSet": "http://inspire.ec.europa.eu/theme"
+    }
+  ],
+
+
+
+
+
+
+
+
+
+
+
+
+  "schema:distribution": [
+    {
+      "@type": "schema:DataDownload",
+      "schema:contentUrl": "https://datacube.julius-kuehn.de/flf/ows",
+      "dcat:accessURL": "https://datacube.julius-kuehn.de/flf/ows",
+      "dcat:downloadURL": "https://datacube.julius-kuehn.de/flf/ows",
+      "schema:encodingFormat": "image/tiff",
+      "schema:description": "Raster layers of DOY values for crop development stages.",
+      "schema:hasPart": {
+        "@type": "schema:MediaObject",
+        "schema:name": "Spatial Resolution",
+        "schema:additionalProperty": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "spatialResolution",
+          "schema:value": 1000,
+          "schema:unitCode": "MTR",
+          "schema:description": "Nominal raster resolution"
+        }
+      }
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:contentUrl": "https://julius-kuehn.de/fairagro/sse/",
+      "dcat:accessURL": "https://julius-kuehn.de/fairagro/sse/",
+      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/sse/",
+      "schema:encodingFormat": "image/tiff",
+      "schema:description": "Raster layers of spline standard error estimates (SSE).",
+      "schema:hasPart": {
+        "@type": "schema:MediaObject",
+        "schema:name": "Spatial Resolution",
+        "schema:additionalProperty": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "spatialResolution",
+          "schema:value": 1000,
+          "schema:unitCode": "MTR",
+          "schema:description": "Nominal raster resolution"
+        }
+      }
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam/",
+      "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam/",
+      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam/",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics per crop, phenological stage, and year (CSV); tabular point data.",
+      "schema:hasPart": {
+        "@type": "schema:MediaObject",
+        "schema:name": "Spatial Resolution",
+        "schema:additionalProperty": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "spatialResolution",
+          "schema:value": 0,
+          "schema:unitCode": "MTR",
+          "schema:description": "Not spatially gridded; point/tabular data"
+        }
+      }
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam_visual/",
+      "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam_visual/",
+      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam_visual/",
+      "schema:encodingFormat": "application/pdf",
+      "schema:description": "Graphical validation plots for MAE, RMSE, R², and KS (PDF); visualizations only.",
+      "schema:hasPart": {
+        "@type": "schema:MediaObject",
+        "schema:name": "Spatial Resolution",
+        "schema:additionalProperty": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "spatialResolution",
+          "schema:value": 0,
+          "schema:unitCode": "MTR",
+          "schema:description": "Not spatially gridded; visualizations only"
+        }
+      }
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:contentUrl": "https://julius-kuehn.de/fairagro/tmit/",
+      "dcat:accessURL": "https://julius-kuehn.de/fairagro/tmit/",
+      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/tmit/",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Meteorological input data used in DOY transformation (TMIT, CSV); point data without raster resolution.",
+      "schema:hasPart": {
+        "@type": "schema:MediaObject",
+        "schema:name": "Spatial Resolution",
+        "schema:additionalProperty": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "spatialResolution",
+          "schema:value": 0,
+          "schema:unitCode": "MTR",
+          "schema:description": "Meteorological point data; no raster resolution"
+        }
+      }
+    }
+  ],
+
+
+  "prov:wasGeneratedBy": {
+    "@type": "prov:Activity",
+    "prov:used": [
+      "https://opendata.dwd.de/",
+      "https://doi.org/10.20387/bonares-je6g-9896",
+      "https://sf.julius-kuehn.de/openapi/phase/",
+      "https://datacube.julius-kuehn.de/flf/ows?&SERVICE=WCS&VERSION=2.0.1&REQUEST=DescribeCoverage"
+    ],
+    "prov:wasAssociatedWith": [
+      {
+        "@type": "prov:SoftwareAgent",
+        "schema:name": "PHASE Model",
+        "schema:codeRepository": "https://github.com/JKI-GDM/PhaseR"
+      },
+      {
+        "@type": "prov:SoftwareAgent",
+        "schema:name": "SciWIn Client"
+      }
+    ]
+  },
+
+
+
+
+    "dc:relation": [
+      {
+        "@type": "schema:SoftwareSourceCode",
+        "schema:name": "PHASE Model Software",
+        "schema:identifier": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+          "schema:value": "10.5281/zenodo.7867446",
+          "schema:url": "https://doi.org/10.5281/zenodo.7867446"
+        }
+      },
+      {
+        "@type": "schema:CreativeWork",
+        "schema:name": "WCS Access Guide",
+        "schema:identifier": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+          "schema:value": "10.5281/zenodo.14215012",
+          "schema:url": "https://doi.org/10.5281/zenodo.14215012"
+        }
+      },
+      {
+        "@type": "schema:SoftwareSourceCode",
+        "schema:name": "PhaseR Source Code",
+        "schema:identifier": "https://github.com/JKI-GDM/PhaseR/"
+      },
+      {
+        "@type": "schema:ScholarlyArticle",
+        "schema:name": "PHASE Model Preprint",
+        "schema:identifier": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+          "schema:value": "10.31223/X5D37T",
+          "schema:url": "https://doi.org/10.31223/X5D37T"
+        }
+      },
+      {
+        "@type": "schema:ScholarlyArticle",
+        "schema:name": "Catena Journal Article",
+        "schema:identifier": {
+          "@type": "schema:PropertyValue",
+          "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+          "schema:value": "10.1016/j.catena.2025.109080",
+          "schema:url": "https://doi.org/10.1016/j.catena.2025.109080"
+        }
+      },
+      {
+        "@type": "schema:CreativeWork",
+        "schema:name": "Validation Protocol (Notebook)",
+        "schema:identifier": "https://julius-kuehn.de/fairagro/validation-notebook/"
+      }
+    ],
+
+
+
+  "schema:hasPart": {
+  "@id": "https://julius-kuehn.de/fairagro/application_matrix.json",
+  "@type": "schema:MediaObject",
+  "schema:name": "Application Matrix for PHASE Crop Phenological Dataset",
+  "schema:contentUrl": "https://julius-kuehn.de/fairagro/application_matrix.json",
+  "schema:fileFormat": "application/json",
+  "schema:encodingFormat": "application/json",
+  "schema:description": "Detailed matrix of application areas, use cases, input data, analysis techniques, software components, and stakeholder relevance for the PHASE crop phenological dataset."
+  },
+
+
+  "workflow_context": {
+    "initiated_by": "SciWIn Client",
+    "data_providers": ["BONARES", "DWD"],
+    "execution_environment": "JKI Data Cube",
+    "standards_used": [
+      "FAIR Digital Object",
+      "OGC Web Coverage Service (WCS) 2.0.1",
+      "OpenAPI",
+      "rasdaman Array DBMS",
+      "Jupyter Notebook integration",
+      "CODE-DE Sentinel-2 preprocessing",
+      "DCAT",
+      "Schema.org"
+    ]
+  },
+
+  "schema:keywords": [
+    "crop phenology",
+    "winter wheat",
+    "growing degree days",
+    "spatial interpolation",
+    "agro-environmental modeling",
+    "climate impact",
+    "yield forecasting"
+  ],
+
+
+
+  "schema:citation": [
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1016/j.catena.2025.109080",
+        "schema:url": "https://doi.org/10.1016/j.catena.2025.109080"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1371/journal.pone.0288202",
+        "schema:url": "https://doi.org/10.1371/journal.pone.0288202"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1088/1748-9326/acd24d0",
+        "schema:url": "https://doi.org/10.1088/1748-9326/acd24d0"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1016/j.efr.2024.109551",
+        "schema:url": "https://doi.org/10.1016/j.efr.2024.109551"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1007/s00704-018-2473-x",
+        "schema:url": "https://doi.org/10.1007/s00704-018-2473-x"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1007/s41064-018-0043-6",
+        "schema:url": "https://doi.org/10.1007/s41064-018-0043-6"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1016/j.catena.2016.11.016",
+        "schema:url": "https://doi.org/10.1016/j.catena.2016.11.016"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1016/j.foodpol.2021.102214",
+        "schema:url": "https://doi.org/10.1016/j.foodpol.2021.102214"
+      }
+    },
+    {
+      "@type": "schema:ScholarlyArticle",
+      "schema:identifier": {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+        "schema:value": "10.1093/erae/jbab010",
+        "schema:url": "https://doi.org/10.1093/erae/jbab010"
+      }
+    }
+  ],
+
+
+  "dcat:contactPoint": {
+    "@type": "vcard:Contact",
+    "fn": "Mahdi Hedayat Mahmoudi",
+    "vcard:hasEmail": "mailto:Mahdi.Mahmoudi@julius-kuehn.de",
+    "vcard:hasTelephone": "+49 123 456789",
+    "contactType": "Support"
+  }
+}
