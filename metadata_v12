@@ -51,9 +51,9 @@
 
   "schema:identifier": {
     "@type": "schema:PropertyValue",
-    "schema:name": "DOI: 10.20387/bonares-je6g-9896",
+    "schema:name": "DOI,
     "schema:propertyID": "https://registry.identifiers.org/registry/doi",
-    "schema:value": "doi:10.20387/bonares-je6g-9896",
+    "schema:value": "10.20387/bonares-je6g-9896",
     "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
   },
 
