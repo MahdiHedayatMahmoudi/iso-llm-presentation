@@ -20,21 +20,18 @@
 
 
 
+    "schema:isBasedOn": {
+      "@type": "schema:CreativeWork",
+      "@id": "https://doi.org/10.20387/bonares-je6g-9896",
+      "schema:name": "Concept record for PHASE Crop Phenological Dataset series"
+    },
 
-  "schema:isBasedOn": {
+
+  "schema:isPartOf": {
     "@type": "schema:CreativeWork",
-    "schema:name": "Concept record for PHASE Crop Phenological Dataset series",
-    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+    "@id": "https://doi.org/10.20387/bonares-je6g-9896"
   },
 
-
-
-
-    "schema:isPartOf": {
-    "@type": "schema:CreativeWork",
-    "schema:name": "PHASE Crop Phenological Dataset Series",
-    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
-  },
 
 
   "schema:dateModified": "2025-06-23T12:00:00Z",
