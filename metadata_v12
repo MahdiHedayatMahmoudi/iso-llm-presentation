@@ -90,7 +90,10 @@
 
 
   "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
-  "schema:license": "https://creativecommons.org/licenses/by/4.0/",
+  "schema:license": {
+    "@type": "CreativeWork",
+    "@id": "https://creativecommons.org/licenses/by/4.0/"
+  },
 
 
 
