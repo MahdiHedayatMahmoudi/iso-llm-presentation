@@ -51,14 +51,13 @@
 
 
 
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "DOI",
-    "schema:value": "10.20387/bonares-je6g-9896",
-    "schema:url": "https://doi.org/10.20387/bonares-je6g-9896",
-    "@id": "https://identifiers.org/doi:10.20387/bonares-je6g-9896"
-  },
-  "dc:identifier": "https://doi.org/10.20387/bonares-je6g-9896",
+    "schema:identifier": {
+      "@type": "schema:PropertyValue",
+      "schema:name": "DOI: 10.20387/bonares-je6g-9896",
+      "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+      "schema:value": "doi:10.20387/bonares-je6g-9896",
+      "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
+    },
 
 
 
