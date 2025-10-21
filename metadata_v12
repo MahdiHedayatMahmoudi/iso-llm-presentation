@@ -1,7 +1,7 @@
 {
   "@context": {
     "dcat": "http://www.w3.org/ns/dcat#",
-    "dc": "http://purl.org/dc/terms/",
+    "dct": "http://purl.org/dc/terms/",
     "schema": "https://schema.org/",
     "bioschemas": "https://bioschemas.org/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -621,7 +621,7 @@
 
 
 
-    "dc:relation": [
+    "dcat:relation": [
       {
         "@type": "schema:SoftwareSourceCode",
         "schema:name": "PHASE Model Software",
