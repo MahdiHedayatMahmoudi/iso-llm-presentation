@@ -465,6 +465,12 @@
       "@type": "schema:DefinedTerm",
       "schema:name": "Agricultural and aquaculture facilities",
       "schema:inDefinedTermSet": "http://inspire.ec.europa.eu/theme"
+    },
+    {
+      "@type": "CreativeWork",
+      "schema:name": "Application Matrix",
+      "schema:description": "Describes intended use, strengths, and limitations per crop and phenological stage",
+      "schema:url": "./application_matrix.json"
     }
   ],
 
