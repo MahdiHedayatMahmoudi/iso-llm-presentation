@@ -97,7 +97,17 @@
     "schema:name": "CC BY 4.0",
     "schema:url": "https://creativecommons.org/licenses/by/4.0/"
   },
-  "dct:accessRights": "https://www.openaire.eu/access-rights",
+  "dct:accessRights": {
+    "@type": "CreativeWork",
+    "schema:name": "Open Access",
+    "schema:url": "https://www.openaire.eu/access-rights"
+  },
+  "dct:rights": {
+    "@type": "CreativeWork",
+    "schema:name": "CC BY 4.0",
+    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+
 
   "schema:temporalCoverage": "1993-01-01/2022-12-31",
   "schema:spatialCoverage": {
