@@ -11,13 +11,13 @@
     "agrovoc": "http://aims.fao.org/aos/agrovoc/"
   },
 
-  "@id": "https://doi.org/10.20387/bonares-je6g-9896.v4",
+  "@id": "https://doi.org/10.20387/bonares-je6g-9896.v11",
   "@type": [
   "schema:Dataset",
   "dcat:Dataset"
   ],
 
-  "schema:url": "https://doi.org/10.20387/bonares-je6g-9896.v4",
+  "schema:url": "https://doi.org/10.20387/bonares-je6g-9896.v11",
 
 
 
@@ -40,13 +40,13 @@
 
   "schema:dateModified": "2025-06-23T12:00:00Z",
 
-  "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v3",
+  "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v10",
 
-  "schema:version": "4.0.0",
+  "schema:version": "11.0.0",
 
   "skos:note": [
   "Major update: updated TMIT inputs, revised interpolation metrics, enhanced validation coverage.",
-  "Version 4.0.0 (2025-06-23): Added 2023 meteorological TMIT files, enhanced spatial validation layers, and revised model parameters. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
+  "Version 11.0.0 (2025-06-23): Added 2023 meteorological TMIT files, enhanced spatial validation layers, and revised model parameters. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
   ],
 
 
@@ -116,6 +116,41 @@
   "schema:description": "Open access via HTTPS and WCS 2.0.1. Archived in BonaRes Repository with long-term preservation (≥10 years). No authentication required.",
   "schema:url": "https://www.bonares.de/data-policy"
   },
+
+
+  "schema:usageInfo": {
+    "@type": "schema:CreativeWork",
+    "schema:name": "Reuse and Attribution Guidelines",
+    "schema:description": "Users must cite the dataset DOI and associated Catena (2025) article when reusing the data. Example citation: 'Data derived from PHASE Crop Phenological Development Dataset (BonaRes DOI: 10.20387/bonares-je6g-9896.v4), Julius Kühn-Institut.'"
+  },
+
+
+
+
+  "schema:conformsTo": [
+    {
+      "@type": "CreativeWork",
+      "schema:name": "OGC Web Coverage Service (WCS) 2.0.1",
+      "schema:url": "https://www.ogc.org/standards/wcs"
+    },
+    {
+      "@type": "CreativeWork",
+      "schema:name": "FAIR Digital Object Framework",
+      "schema:url": "https://fairdo.org/"
+    },
+    {
+      "@type": "CreativeWork",
+      "schema:name": "Schema.org Dataset specification",
+      "schema:url": "https://schema.org/Dataset"
+    },
+    {
+      "@type": "CreativeWork",
+      "schema:name": "DCAT v3 (W3C Recommendation 2022)",
+      "schema:url": "https://www.w3.org/TR/vocab-dcat-3/"
+    }
+  ],
+
+
 
   "schema:temporalCoverage": "1993-01-01/2022-12-31",
   "schema:spatialCoverage": {
@@ -639,21 +674,21 @@
       }
     ],
 
-
-
-
-
   "schema:hasPart": {
     "@id": "./application_matrix.json",
     "@type": "schema:CreativeWork",
     "schema:name": "Application Matrix",
-    "schema:description": "Matrix describing dataset applications, use cases, strengths, limitations, and reproducibility."
-    },
+    "schema:description": "Provides intended use, validation methods, strengths, limitations, and reproducibility for this dataset.",
+    "schema:identifier": {
+      "@type": "schema:PropertyValue",
+      "schema:propertyID": "sha256",
+      "schema:value": "b7f4c6e8e3d47b2efc01a9b74a5bcb1e6437e68d88a056d2a59b0c6c342fd2d5"
+    }
+  },
   "schema:mainEntity": {
     "@id": "./application_matrix.json",
-    "@type": "schema:CreativeWork",
-    "schema:description": "Provides intended use, validation methods, strengths, limitations, and reproducibility for this dataset."
-    },
+    "@type": "schema:CreativeWork"
+  },
 
 
 
