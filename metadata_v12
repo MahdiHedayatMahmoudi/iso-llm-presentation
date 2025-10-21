@@ -16,8 +16,8 @@
   "schema:Dataset",
   "dcat:Dataset"
   ],
-  "schema:url": "https://doi.org/10.20387/bonares-je6g-9896.v4",
 
+  "schema:url": "https://doi.org/10.20387/bonares-je6g-9896.v4",
 
 
 
@@ -109,6 +109,13 @@
     "schema:url": "https://creativecommons.org/licenses/by/4.0/"
   },
 
+
+  "schema:conditionsOfAccess": {
+  "@type": "schema:CreativeWork",
+  "schema:name": "Access and Persistence Policy",
+  "schema:description": "Open access via HTTPS and WCS 2.0.1. Archived in BonaRes Repository with long-term preservation (≥10 years). No authentication required.",
+  "schema:url": "https://www.bonares.de/data-policy"
+  },
 
   "schema:temporalCoverage": "1993-01-01/2022-12-31",
   "schema:spatialCoverage": {
@@ -430,10 +437,16 @@
   "schema:distribution": [
     {
       "@type": "schema:DataDownload",
+      "schema:name": "DOY raster layers",
       "schema:contentUrl": "https://datacube.julius-kuehn.de/flf/ows",
       "dcat:accessURL": "https://datacube.julius-kuehn.de/flf/ows",
       "dcat:downloadURL": "https://datacube.julius-kuehn.de/flf/ows",
-      "schema:encodingFormat": "image/tiff",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "GeoTIFF",
+        "schema:encodingFormat": "image/tiff"
+      },
+      "schema:contentSize": "4.2 GB",
       "schema:description": "Raster layers of DOY values for crop development stages.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -449,10 +462,16 @@
     },
     {
       "@type": "schema:DataDownload",
+      "schema:name": "SSE raster layers",
       "schema:contentUrl": "https://julius-kuehn.de/fairagro/sse/",
       "dcat:accessURL": "https://julius-kuehn.de/fairagro/sse/",
       "dcat:downloadURL": "https://julius-kuehn.de/fairagro/sse/",
-      "schema:encodingFormat": "image/tiff",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "GeoTIFF",
+        "schema:encodingFormat": "image/tiff"
+      },
+      "schema:contentSize": "4.2 GB",
       "schema:description": "Raster layers of spline standard error estimates (SSE).",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -468,10 +487,16 @@
     },
     {
       "@type": "schema:DataDownload",
+      "schema:name": "VAM summary table (CSV)",
       "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam/",
       "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam/",
       "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam/",
-      "schema:encodingFormat": "text/csv",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:contentSize": "320 KB",
       "schema:description": "Validation metrics per crop, phenological stage, and year (CSV); tabular point data.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -487,10 +512,16 @@
     },
     {
       "@type": "schema:DataDownload",
+      "schema:name": "VAM report (PDF)",
       "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam_visual/",
       "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam_visual/",
       "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam_visual/",
-      "schema:encodingFormat": "application/pdf",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "PDF",
+        "schema:encodingFormat": "application/pdf"
+      },
+    "schema:contentSize": "1.2 MB",
       "schema:description": "Graphical validation plots for MAE, RMSE, R², and KS (PDF); visualizations only.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -509,7 +540,12 @@
       "schema:contentUrl": "https://julius-kuehn.de/fairagro/tmit/",
       "dcat:accessURL": "https://julius-kuehn.de/fairagro/tmit/",
       "dcat:downloadURL": "https://julius-kuehn.de/fairagro/tmit/",
-      "schema:encodingFormat": "text/csv",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:contentSize": "320 KB",
       "schema:description": "Meteorological input data used in DOY transformation (TMIT, CSV); point data without raster resolution.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
