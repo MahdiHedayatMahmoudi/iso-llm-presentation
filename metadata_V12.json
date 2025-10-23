@@ -42,7 +42,7 @@
 
   "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v10",
 
-  "schema:version": "11.0.0",
+  "schema:version": "11.0.1",
 
   "skos:note": [
   "Major update: updated TMIT inputs, revised interpolation metrics, enhanced validation coverage.",
@@ -60,14 +60,10 @@
 
 
 
-
-
-
-
   "schema:creator": [
-    { "@type": "schema:Person", "schema:name": "Author1" },
-    { "@type": "schema:Person", "schema:name": "Author2" },
-    { "@type": "schema:Person", "schema:name": "Author3" }
+    { "@type": "schema:Person", "schema:name": "Markus Möller" },
+    { "@type": "schema:Person", "schema:name": "Mahdi Hedayat Mahmoudi" },
+    { "@type": "schema:Person", "schema:name": "Paul Peschel" }
   ],
   "schema:contributor": [
     { "@type": "schema:Organization", "schema:name": "NFDI FAIRagro Consortium" }
@@ -76,7 +72,7 @@
     "@type": "schema:Organization",
     "schema:name": "Julius Kühn-Institut (JKI) – Federal Research Centre for Cultivated Plants"
   },
-  "schema:datePublished": "2025-06-23",
+  "schema:datePublished": "2025-10-21",
   "schema:funder": [
     {
       "@type": "schema:Organization",
@@ -94,20 +90,12 @@
   "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
 
 
+  
   "schema:license": {
     "@type": "CreativeWork",
     "schema:name": "CC BY 4.0",
-    "schema:url": "https://creativecommons.org/licenses/by/4.0/",
-    "schema:permissions": [
-      "Reuse",
-      "Modification",
-      "Distribution",
-      "Commercial use"
-    ]
+    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
   },
-
-
-
   "dct:accessRights": {
     "@type": "CreativeWork",
     "schema:name": "Open Access",
@@ -465,12 +453,6 @@
       "@type": "schema:DefinedTerm",
       "schema:name": "Agricultural and aquaculture facilities",
       "schema:inDefinedTermSet": "http://inspire.ec.europa.eu/theme"
-    },
-    {
-      "@type": "CreativeWork",
-      "schema:name": "Application Matrix",
-      "schema:description": "Describes intended use, strengths, and limitations per crop and phenological stage",
-      "schema:url": "./application_matrix.json"
     }
   ],
 
@@ -489,15 +471,14 @@
     {
       "@type": "schema:DataDownload",
       "schema:name": "DOY raster layers",
-      "schema:contentUrl": "https://datacube.julius-kuehn.de/flf/ows",
-      "dcat:accessURL": "https://datacube.julius-kuehn.de/flf/ows",
-      "dcat:downloadURL": "https://datacube.julius-kuehn.de/flf/ows",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<DOY_FILENAME>?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<DOY_FILENAME>?download=1",
       "schema:encodingFormat": {
         "@type": "schema:MediaObject",
         "schema:fileFormat": "GeoTIFF",
         "schema:encodingFormat": "image/tiff"
       },
-      "schema:contentSize": "4.2 GB",
+      "schema:contentSize": "<DOY_FILE_SIZE>",
       "schema:description": "Raster layers of DOY values for crop development stages.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -514,15 +495,15 @@
     {
       "@type": "schema:DataDownload",
       "schema:name": "SSE raster layers",
-      "schema:contentUrl": "https://julius-kuehn.de/fairagro/sse/",
-      "dcat:accessURL": "https://julius-kuehn.de/fairagro/sse/",
-      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/sse/",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<SSE_FILENAME>?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<SSE_FILENAME>?download=1",
+   
       "schema:encodingFormat": {
         "@type": "schema:MediaObject",
         "schema:fileFormat": "GeoTIFF",
         "schema:encodingFormat": "image/tiff"
       },
-      "schema:contentSize": "4.2 GB",
+      "schema:contentSize": "<SSE_FILE_SIZE>",
       "schema:description": "Raster layers of spline standard error estimates (SSE).",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -539,15 +520,15 @@
     {
       "@type": "schema:DataDownload",
       "schema:name": "VAM summary table (CSV)",
-      "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam/",
-      "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam/",
-      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam/",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<VAM_CSV_FILENAME>?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<VAM_CSV_FILENAME>?download=1",
+   
       "schema:encodingFormat": {
         "@type": "schema:MediaObject",
         "schema:fileFormat": "CSV",
         "schema:encodingFormat": "text/csv"
       },
-      "schema:contentSize": "320 KB",
+      "schema:contentSize": "<VAM_CSV_FILE_SIZE>",
       "schema:description": "Validation metrics per crop, phenological stage, and year (CSV); tabular point data.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -564,15 +545,15 @@
     {
       "@type": "schema:DataDownload",
       "schema:name": "VAM report (PDF)",
-      "schema:contentUrl": "https://julius-kuehn.de/fairagro/vam_visual/",
-      "dcat:accessURL": "https://julius-kuehn.de/fairagro/vam_visual/",
-      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/vam_visual/",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<VAM_PDF_FILENAME>?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<VAM_PDF_FILENAME>?download=1",
+   
       "schema:encodingFormat": {
         "@type": "schema:MediaObject",
         "schema:fileFormat": "PDF",
         "schema:encodingFormat": "application/pdf"
       },
-    "schema:contentSize": "1.2 MB",
+    "schema:contentSize": "<VAM_PDF_FILE_SIZE>",
       "schema:description": "Graphical validation plots for MAE, RMSE, R², and KS (PDF); visualizations only.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -588,15 +569,15 @@
     },
     {
       "@type": "schema:DataDownload",
-      "schema:contentUrl": "https://julius-kuehn.de/fairagro/tmit/",
-      "dcat:accessURL": "https://julius-kuehn.de/fairagro/tmit/",
-      "dcat:downloadURL": "https://julius-kuehn.de/fairagro/tmit/",
+      "schema:name": "TMIT input data (CSV)",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<TMIT_CSV_FILENAME>?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/<TMIT_CSV_FILENAME>?download=1",
       "schema:encodingFormat": {
         "@type": "schema:MediaObject",
         "schema:fileFormat": "CSV",
         "schema:encodingFormat": "text/csv"
       },
-      "schema:contentSize": "320 KB",
+      "schema:contentSize": "<TMIT_CSV_FILE_SIZE>",
       "schema:description": "Meteorological input data used in DOY transformation (TMIT, CSV); point data without raster resolution.",
       "schema:hasPart": {
         "@type": "schema:MediaObject",
@@ -823,8 +804,8 @@
 
   "dcat:contactPoint": {
     "@type": "vcard:Contact",
-    "fn": "Mahdi Hedayat Mahmoudi",
-    "vcard:hasEmail": "mailto:Mahdi.Mahmoudi@julius-kuehn.de",
+    "fn": "Markus Möller",
+    "vcard:hasEmail": "mailto:Markus.Moeller@julius-kuehn.de",
     "vcard:hasTelephone": "+49 123 456789",
     "contactType": "Support"
   }
