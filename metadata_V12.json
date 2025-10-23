@@ -594,26 +594,7 @@
   ],
 
 
-  "prov:wasGeneratedBy": {
-    "@type": "prov:Activity",
-    "prov:used": [
-      "https://opendata.dwd.de/",
-      "https://doi.org/10.20387/bonares-je6g-9896",
-      "https://sf.julius-kuehn.de/openapi/phase/",
-      "https://datacube.julius-kuehn.de/flf/ows?&SERVICE=WCS&VERSION=2.0.1&REQUEST=DescribeCoverage"
-    ],
-    "prov:wasAssociatedWith": [
-      {
-        "@type": "prov:SoftwareAgent",
-        "schema:name": "PHASE Model",
-        "schema:codeRepository": "https://github.com/JKI-GDM/PhaseR"
-      },
-      {
-        "@type": "prov:SoftwareAgent",
-        "schema:name": "SciWIn Client"
-      }
-    ]
-  },
+
 
 
 
@@ -689,21 +670,48 @@
 
 
 
-  "workflow_context": {
-    "initiated_by": "SciWIn Client",
-    "data_providers": ["BONARES", "DWD"],
-    "execution_environment": "JKI Data Cube",
-    "standards_used": [
-      "FAIR Digital Object",
-      "OGC Web Coverage Service (WCS) 2.0.1",
-      "OpenAPI",
-      "rasdaman Array DBMS",
-      "Jupyter Notebook integration",
-      "CODE-DE Sentinel-2 preprocessing",
-      "DCAT",
-      "Schema.org"
-    ]
+
+
+
+  "prov:wasGeneratedBy": {
+    "@type": "prov:Activity",
+    "prov:used": [
+      "https://opendata.dwd.de/",
+      "https://doi.org/10.20387/bonares-je6g-9896",
+      "https://sf.julius-kuehn.de/openapi/phase/",
+      "https://datacube.julius-kuehn.de/flf/ows?&SERVICE=WCS&VERSION=2.0.1&REQUEST=DescribeCoverage"
+    ],
+    "prov:wasAssociatedWith": [
+      {
+        "@type": "prov:SoftwareAgent",
+        "schema:name": "PHASE Model",
+        "schema:codeRepository": "https://github.com/JKI-GDM/PhaseR"
+      },
+      {
+        "@type": "prov:SoftwareAgent",
+        "schema:name": "SciWIn Client"
+      }
+    ],
+    "prov:detail": {
+      "prov:activityDetail": {
+        "initiated_by": "SciWIn Client",
+        "data_providers": ["BONARES", "DWD"],
+        "execution_environment": "JKI Data Cube",
+        "standards_used": [
+          "FAIR Digital Object",
+          "OGC Web Coverage Service (WCS) 2.0.1",
+          "OpenAPI",
+          "rasdaman Array DBMS",
+          "Jupyter Notebook integration",
+          "CODE-DE Sentinel-2 preprocessing",
+          "DCAT",
+          "Schema.org"
+        ]
+      }
+    }
   },
+
+
 
   "schema:keywords": [
     "crop phenology",
