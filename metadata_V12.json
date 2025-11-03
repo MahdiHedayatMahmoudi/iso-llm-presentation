@@ -42,11 +42,12 @@
 
   "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v10",
 
-  "schema:version": "11.0.1",
+  "schema:version": "11.2.1",
+
 
   "skos:note": [
-  "Major update: updated TMIT inputs, revised interpolation metrics, enhanced validation coverage.",
-  "Version 11.0.0 (2025-06-23): Added 2023 meteorological TMIT files, enhanced spatial validation layers, and revised model parameters. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
+    "Major update: added crop-specific VAM metrics CSVs (permanent grassland, cereals, maize, fodder, sugar beet), enhancing validation coverage and detail.",
+    "Version 11.2.0 (2025-10-30): Added VAM metrics per crop, maintaining previous TMIT inputs, raster layers, and summary tables. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
   ],
 
 
@@ -83,29 +84,41 @@
 
 
 
-  "schema:name": "PHASE Crop Phenological Development Dataset (1993–2022)",
 
 
-
+  "dct:title": {
+    "@value": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
+    "@language": "en"
+  },
+  "schema:name": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
   "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
-
-
-  
+  "license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/",
+    "@type": "schema:CreativeWork",
+    "schema:name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+  },
   "schema:license": {
-    "@type": "CreativeWork",
+    "@type": "schema:CreativeWork",
     "schema:name": "CC BY 4.0",
     "schema:url": "https://creativecommons.org/licenses/by/4.0/"
   },
   "dct:accessRights": {
-    "@type": "CreativeWork",
-    "schema:name": "Open Access",
-    "schema:url": "https://www.openaire.eu/access-rights"
+    "@type": "dct:RightsStatement",
+    "name": "Open Access",
+    "url": "https://www.openaire.eu/access-rights"
   },
   "dct:rights": {
-    "@type": "CreativeWork",
-    "schema:name": "CC BY 4.0",
-    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+    "@type": "dct:RightsStatement",
+    "name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
   },
+
+
+
+
+
+
 
 
   "schema:conditionsOfAccess": {
@@ -127,22 +140,22 @@
 
   "schema:conformsTo": [
     {
-      "@type": "CreativeWork",
+      "@type": "schema:CreativeWork",
       "schema:name": "OGC Web Coverage Service (WCS) 2.0.1",
       "schema:url": "https://www.ogc.org/standards/wcs"
     },
     {
-      "@type": "CreativeWork",
+      "@type": "schema:CreativeWork",
       "schema:name": "FAIR Digital Object Framework",
       "schema:url": "https://fairdo.org/"
     },
     {
-      "@type": "CreativeWork",
+      "@type": "schema:CreativeWork",
       "schema:name": "Schema.org Dataset specification",
       "schema:url": "https://schema.org/Dataset"
     },
     {
-      "@type": "CreativeWork",
+      "@type": "schema:CreativeWork",
       "schema:name": "DCAT v3 (W3C Recommendation 2022)",
       "schema:url": "https://www.w3.org/TR/vocab-dcat-3/"
     }
@@ -590,6 +603,207 @@
           "schema:description": "Meteorological point data; no raster resolution"
         }
       }
+    },
+
+
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for permanent grassland",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_201.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_201.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for permanent grassland.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:201", "schema:name": "permanent grassland" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Winter Wheat",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_202.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_202.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Winter Wheat.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:202", "schema:name": "Winter Wheat" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Winter Rye",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_203.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_203.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Winter Rye.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:203", "schema:name": "Winter Rye" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Winter Barley",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_204.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_204.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Winter Barley.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:204", "schema:name": "Winter Barley" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Winter Rape",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_205.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_205.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Winter Rape.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:205", "schema:name": "Winter Rape" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Summer Oat",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_208.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_208.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Summer Oat.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:208", "schema:name": "Summer Oat" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Maize",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_215.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_215.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Maize.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:215", "schema:name": "Maize" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Grass (Fodder)",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_252.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_252.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Grass (Fodder).",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:252", "schema:name": "Grass (Fodder)" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
+    },
+    {
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM metrics for Sugar Beet",
+      "schema:contentUrl": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_253.csv?download=1",
+      "dcat:accessURL": "https://zenodo.org/record/<ZENODO_RECORD_ID>/files/VAM_253.csv?download=1",
+      "schema:encodingFormat": {
+        "@type": "schema:MediaObject",
+        "schema:fileFormat": "CSV",
+        "schema:encodingFormat": "text/csv"
+      },
+      "schema:description": "Validation metrics (ON, MSE, MAE, RMSE, R2) for Sugar Beet.",
+      "schema:variableMeasured": [
+        { "@type": "schema:PropertyValue", "schema:name": "PLANT", "schema:description": "Identifier for crop type", "schema:valueReference": { "@id": "urn:julius-kuehn:crop:253", "schema:name": "Sugar Beet" } },
+        { "@type": "schema:PropertyValue", "schema:name": "PHASE", "schema:description": "Phenological phase number in the PHASE model" },
+        { "@type": "schema:PropertyValue", "schema:name": "YEAR", "schema:description": "Observation year" },
+        { "@type": "schema:PropertyValue", "schema:name": "ON", "schema:description": "Observed day-of-year onset of phenological phase", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MSE", "schema:description": "Mean Squared Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "MAE", "schema:description": "Mean Absolute Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "RMSE", "schema:description": "Root Mean Square Error", "schema:unitCode": "DAY" },
+        { "@type": "schema:PropertyValue", "schema:name": "R2", "schema:description": "Coefficient of Determination" }
+      ]
     }
   ],
 
@@ -810,11 +1024,19 @@
   ],
 
 
-  "dcat:contactPoint": {
-    "@type": "vcard:Contact",
-    "fn": "Markus Möller",
-    "vcard:hasEmail": "mailto:Markus.Moeller@julius-kuehn.de",
-    "vcard:hasTelephone": "+49 123 456789",
-    "contactType": "Support"
-  }
+  "dcat:contactPoint": [
+    {
+      "@type": "vcard:Organization",
+      "vcard:fn": "Julius Kühn-Institut (JKI) – Federal Research Centre for Cultivated Plants",
+      "vcard:hasEmail": "mailto:contact@julius-kuehn.de"
+    },
+    {
+      "@type": "vcard:Individual",
+      "vcard:fn": "Markus Möller",
+      "vcard:hasEmail": "mailto:Markus.Moeller@julius-kuehn.de",
+      "vcard:hasTelephone": "tel:+49-123-456789",
+      "vcard:role": "Support"
+    }
+  ]
+
 }
