@@ -86,37 +86,32 @@
 
 
 
-  "dct:title": {
+
+
+
+    "dct:title": {
     "@value": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
     "@language": "en"
-  },
-  "schema:name": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
-  "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
-  "license": {
+    },
+    "schema:name": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
+    "schema:description": "Germany-wide 1 km resolution time series of interpolated day-of-year (DOY) values for the start of crop phenological development stages. The data are derived using the PHASE model, which integrates growing degree day thresholds with geostatistical interpolation. The dataset includes quality-assured filtered variants and comprehensive validation metrics to support agro-environmental modeling, yield forecasting, and climate impact studies.",
+
+    "dct:license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/",
+    "@type": "dct:LicenseDocument",
+    "name": "Creative Commons Attribution 4.0 International (CC BY 4.0)"
+    },
+    "schema:license": {
     "@id": "https://creativecommons.org/licenses/by/4.0/",
     "@type": "schema:CreativeWork",
     "schema:name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
     "schema:url": "https://creativecommons.org/licenses/by/4.0/"
-  },
-  "schema:license": {
-    "@type": "schema:CreativeWork",
-    "schema:name": "CC BY 4.0",
-    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
-  },
-  "dct:accessRights": {
+    },
+    "dct:accessRights": {
     "@type": "dct:RightsStatement",
     "name": "Open Access",
     "url": "https://www.openaire.eu/access-rights"
-  },
-  "dct:rights": {
-    "@type": "dct:RightsStatement",
-    "name": "CC BY 4.0",
-    "url": "https://creativecommons.org/licenses/by/4.0/"
-  },
-
-
-
-
+    },
 
 
 
