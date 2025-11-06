@@ -19,17 +19,11 @@
 
   "schema:url": "https://doi.org/10.20387/bonares-je6g-9896.v11",
 
-
-
-
   "schema:isBasedOn": {
     "@type": "schema:CreativeWork",
     "schema:name": "Concept record for PHASE Crop Phenological Dataset series",
     "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
   },
-
-
-
 
     "schema:isPartOf": {
     "@type": "schema:CreativeWork",
@@ -37,19 +31,16 @@
     "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
   },
 
-
   "schema:dateModified": "2025-06-23T12:00:00Z",
 
   "prov:wasRevisionOf": "https://doi.org/10.20387/bonares-je6g-9896.v10",
 
   "schema:version": "11.2.1",
 
-
   "skos:note": [
     "Major update: added crop-specific VAM metrics CSVs (permanent grassland, cereals, maize, fodder, sugar beet), enhancing validation coverage and detail.",
     "Version 11.2.0 (2025-10-30): Added VAM metrics per crop, maintaining previous TMIT inputs, raster layers, and summary tables. See changelog at https://julius-kuehn.de/fairagro/changelog/v4.0.0."
   ],
-
 
   "schema:identifier": {
     "@type": "schema:PropertyValue",
@@ -58,8 +49,6 @@
     "schema:value": "doi:10.20387/bonares-je6g-9896",
     "schema:url": "https://doi.org/10.20387/bonares-je6g-9896"
   },
-
-
 
   "schema:creator": [
     { "@type": "schema:Person", "schema:name": "Markus Möller" },
@@ -81,13 +70,6 @@
       "schema:identifier": "https://www.fairagro.net/"
     }
   ],
-
-
-
-
-
-
-
 
     "dct:title": {
     "@value": "PHASE Crop Phenological Development Dataset (1993–2022) Version 11.2.1",
@@ -114,8 +96,6 @@
     },
 
 
-
-
   "schema:conditionsOfAccess": {
   "@type": "schema:CreativeWork",
   "schema:name": "Access and Persistence Policy",
@@ -123,15 +103,11 @@
   "schema:url": "https://www.bonares.de/data-policy"
   },
 
-
   "schema:usageInfo": {
     "@type": "schema:CreativeWork",
     "schema:name": "Reuse and Attribution Guidelines",
     "schema:description": "Users must cite the dataset DOI and associated Catena (2025) article when reusing the data. Example citation: 'Data derived from PHASE Crop Phenological Development Dataset (BonaRes DOI: 10.20387/bonares-je6g-9896.v4), Julius Kühn-Institut.'"
   },
-
-
-
 
   "schema:conformsTo": [
     {
@@ -156,8 +132,6 @@
     }
   ],
 
-
-
   "schema:temporalCoverage": "1993-01-01/2022-12-31",
   "schema:spatialCoverage": {
     "@type": "schema:Place",
@@ -176,15 +150,10 @@
       }
     ]
   },
-
-
-
-
+  
     "schema:measurementTechnique": [
     "Geostatistical interpolation of growing degree days using PHASE model at 1 km daily resolution"
     ],
-
-
 
   "schema:variableMeasured": [
     {
@@ -247,8 +216,6 @@
       "schema:description": "Composite metric: SN × COR / MAE"
     }
   ],
-
-
 
   "schema:about": [
     {
@@ -463,17 +430,6 @@
       "schema:inDefinedTermSet": "http://inspire.ec.europa.eu/theme"
     }
   ],
-
-
-
-
-
-
-
-
-
-
-
 
   "schema:distribution": [
     {
@@ -802,12 +758,6 @@
     }
   ],
 
-
-
-
-
-
-
     "dcat:relation": [
       {
         "@type": "schema:SoftwareSourceCode",
@@ -877,11 +827,6 @@
     "@type": "schema:CreativeWork"
   },
 
-
-
-
-
-
   "prov:wasGeneratedBy": {
     "@type": "prov:Activity",
     "prov:used": [
@@ -920,8 +865,6 @@
     }
   },
 
-
-
   "schema:keywords": [
     "crop phenology",
     "winter wheat",
@@ -931,8 +874,6 @@
     "climate impact",
     "yield forecasting"
   ],
-
-
 
   "schema:citation": [
     {
@@ -1018,7 +959,6 @@
     }
   ],
 
-
   "dcat:contactPoint": [
     {
       "@type": "vcard:Organization",
@@ -1033,5 +973,4 @@
       "vcard:role": "Support"
     }
   ]
-
 }
