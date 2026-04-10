@@ -1,0 +1,539 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "schema": "https://schema.org/",
+    "bioschemas": "https://bioschemas.org/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "agrovoc": "http://aims.fao.org/aos/agrovoc/"
+  },
+  "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203",
+  "@type": [
+    "schema:Dataset",
+    "dcat:Dataset"
+  ],
+  "schema:name": "PHASE Crop Phenological Development Dataset (1993–2024) Version 1.1.2 – Winter Rye (203)",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:value": "10.5281/zenodo.<RECORD_ID>.203",
+    "schema:url": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203"
+  },
+  "schema:version": "1.1.2",
+  "schema:dateModified": "2026-03-16T00:00:00Z",
+  "schema:description": "Crop-specific subset of the PHASE dataset for Winter Rye. Includes interpolated DOY predictions, uncertainty layers (BSE), and validation metrics (VAM).",
+  "schema:isPartOf": {
+    "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>",
+    "@type": "schema:Dataset",
+    "schema:name": "PHASE Crop Phenological Development Dataset (1993–2024) Version 1.1.2"
+  },
+  "prov:wasDerivedFrom": {
+    "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>"
+  },
+  "schema:citation": {
+    "@type": "schema:Dataset",
+    "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>",
+    "schema:name": "PHASE Crop Phenological Development Dataset (1993–2024) Version 1.1.2"
+  },
+  "schema:creator": [
+    {
+      "@type": "schema:Person",
+      "schema:name": "Markus Möller"
+    },
+    {
+      "@type": "schema:Person",
+      "schema:name": "Mahdi Hedayat Mahmoudi"
+    },
+    {
+      "@type": "schema:Person",
+      "schema:name": "Paul Peschel"
+    }
+  ],
+  "schema:publisher": {
+    "@type": "schema:Organization",
+    "schema:name": "Julius Kühn-Institut (JKI) – Federal Research Centre for Cultivated Plants"
+  },
+  "schema:datePublished": "2026-04-07",
+  "schema:license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/",
+    "@type": "schema:CreativeWork",
+    "schema:name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+    "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "dct:accessRights": {
+    "@type": "dct:RightsStatement",
+    "name": "Open Access",
+    "url": "https://www.openaire.eu/access-rights"
+  },
+  "schema:temporalCoverage": "1993-01-01/2024-12-31",
+  "schema:spatialCoverage": {
+    "@type": "schema:Place",
+    "schema:name": "Germany (PHASE Model domain)",
+    "schema:description": "Spatial extent of the PHASE model grid covering Germany and border buffer zones (1 km resolution).",
+    "schema:geo": {
+      "@type": "schema:GeoShape",
+      "schema:box": "47.2701 5.8663 55.0992 15.0419"
+    },
+    "schema:additionalProperty": [
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "spatialReferenceSystem",
+        "schema:value": "http://www.opengis.net/def/crs/EPSG/0/4326",
+        "schema:description": "WGS 84 geographic coordinate system"
+      }
+    ]
+  },
+  "skos:note": [
+    "Most phenological phases available for 1993–2024.",
+    "Missing phase-year: 203-15_2022"
+  ],
+  "schema:about": {
+    "@type": [
+      "schema:Thing",
+      "bioschemas:BioSample"
+    ],
+    "@id": "urn:julius-kuehn:crop:203",
+    "schema:name": "Winter Rye",
+    "schema:alternateName": [
+      "Rye",
+      "Secale cereale"
+    ],
+    "schema:additionalType": "http://aims.fao.org/aos/agrovoc/c_14010",
+    "schema:taxonomicRange": {
+      "@id": "http://aims.fao.org/aos/agrovoc/c_14010",
+      "schema:name": "Secale cereale"
+    },
+    "schema:additionalProperty": [
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "localCropID",
+        "schema:value": "203"
+      },
+      {
+        "@type": "schema:PropertyValue",
+        "schema:propertyID": "season",
+        "schema:value": "winter"
+      }
+    ]
+  },
+  "schema:measurementTechnique": [
+    "Generalized Additive Model (GAM/BAM) interpolation of phenological observations",
+    "Bayesian Additive Model posterior standard error (BSE) used to quantify local prediction uncertainty"
+  ],
+  "schema:variableMeasured": [
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Temporal Resolution",
+      "schema:description": "Temporal frequency of dataset values",
+      "schema:value": 1,
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Day of Year (DOY)",
+      "schema:description": "Interpolated start date of a crop phenological phase",
+      "schema:unitCode": "DAY",
+      "schema:measurementTechnique": "GAM/BAM interpolation using the PhenoPhaseR workflow"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "BAM Posterior Standard Error (BSE)",
+      "schema:description": "Local uncertainty of interpolated DOY values derived from the Bayesian Additive Model (BAM). Provided as GeoTIFF layers corresponding to each DOY raster.",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Filtered Observation Variant",
+      "schema:description": "DOY values calculated after spatial-temporal outlier filtering",
+      "schema:unitCode": "DAY",
+      "schema:measurementTechnique": "Spatial-temporal outlier filtering of DOY values"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Mean Absolute Error (MAE)",
+      "schema:description": "Average absolute deviation between modelled and observed DOY",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Root Mean Square Error (RMSE)",
+      "schema:description": "Square root of the average squared differences between predictions and observations",
+      "schema:unitCode": "DAY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Coefficient of Determination (R²)",
+      "schema:description": "Explained variance metric for model performance"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Kolmogorov–Smirnov Test (KS)",
+      "schema:description": "Statistical test comparing empirical cumulative distributions of observed and simulated values"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Correlation (COR)",
+      "schema:description": "Correlation between observed and predicted DOY"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "Optimal Score (OPT)",
+      "schema:description": "Composite metric: SN × COR / MAE"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy",
+      "@type": "schema:DataDownload",
+      "schema:name": "DOY rasters – Winter Rye",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/1_DOY_rasters/203/",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/1_DOY_rasters/203/",
+      "schema:fileFormat": "GeoTIFF",
+      "schema:encodingFormat": "image/tiff",
+      "schema:description": "Interpolated day-of-year (DOY) predictions for Winter Rye phenological phases (1993–2024)."
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#bse",
+      "@type": "schema:DataDownload",
+      "schema:name": "BSE uncertainty rasters – Winter Rye",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/2_BSE_rasters/203/",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/2_BSE_rasters/203/",
+      "schema:fileFormat": "GeoTIFF",
+      "schema:encodingFormat": "image/tiff",
+      "schema:description": "Local uncertainty layers (BAM posterior standard error) corresponding to DOY predictions for Winter Rye (1993–2024)."
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-5",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 5",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-5.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-5.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 5 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-5-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-6",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 6",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-6.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-6.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 6 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-6-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-10",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 10",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-10.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-10.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 10 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-10-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-12",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 12",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-12.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-12.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 12 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-12-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-18",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 18",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-18.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-18.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 18 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-18-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-21",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 21",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-21.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-21.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 21 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-21-2024"
+      ]
+    },
+    {
+      "@id": "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#vam-24",
+      "@type": "schema:DataDownload",
+      "schema:name": "VAM CSV – Winter Rye, Phase 24",
+      "schema:contentUrl": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-24.csv",
+      "dcat:accessURL": "https://zenodo.org/records/<RECORD_ID>/files/VAM_203-24.csv",
+      "schema:fileFormat": "CSV",
+      "schema:encodingFormat": "text/csv",
+      "schema:description": "Validation metrics (MAE, RMSE, R², etc.) for Phase 24 across all available years (1993–2024).",
+      "schema:isBasedOn": [
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1993",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1994",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1995",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1996",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1997",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1998",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-1999",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2000",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2001",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2002",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2003",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2004",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2005",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2006",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2007",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2008",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2009",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2010",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2011",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2012",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2013",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2014",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2015",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2016",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2017",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2018",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2019",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2020",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2021",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2023",
+        "https://doi.org/10.5281/zenodo.<RECORD_ID>.203#doy-24-2024"
+      ]
+    }
+  ],
+  "schema:keywords": [
+    "winter rye",
+    "growing degree days",
+    "climate impact",
+    "agro-environmental modeling",
+    "spatial interpolation",
+    "crop-203",
+    "crop phenology",
+    "yield forecasting"
+  ],
+  "dcat:contactPoint": [
+    {
+      "@type": "vcard:Organization",
+      "vcard:fn": "Julius Kühn-Institut (JKI) – Federal Research Centre for Cultivated Plants",
+      "vcard:hasEmail": "mailto:contact@julius-kuehn.de"
+    },
+    {
+      "@type": "vcard:Individual",
+      "vcard:fn": "Markus Möller",
+      "vcard:hasEmail": "mailto:Markus.Moeller@julius-kuehn.de",
+      "vcard:hasTelephone": "tel:+49-123-456789",
+      "vcard:role": "Support"
+    }
+  ],
+  "schema:includedInDataCatalog": {
+    "@type": "schema:DataCatalog",
+    "schema:name": "Zenodo",
+    "schema:url": "https://zenodo.org/"
+  }
+}
